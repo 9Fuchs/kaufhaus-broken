@@ -1,0 +1,26 @@
+[
+  {
+    "id": "loc-velbert-friedrichstr",
+    "name": "Ehemaliges Hertie / Karstadt Velbert",
+    "street": "Friedrichstraße 180",
+    "city": "Velbert",
+    "postal_code": "42551",
+    "lat": 51.3371,
+    "lng": 7.0435,
+    "year_built": 1974,
+    "year_demolished": 2024,
+    "current_status": "repurposed"
+  },
+  {
+    "id": "loc-essen-limbecker-platz",
+    "name": "Galeria Essen Limbecker Platz",
+    "street": "Limbecker Platz 1",
+    "city": "Essen",
+    "postal_code": "45127",
+    "lat": 51.4565,
+    "lng": 7.0082,
+    "year_built": 2008,
+    "year_demolished": null,
+    "current_status": "active"
+  }
+]
