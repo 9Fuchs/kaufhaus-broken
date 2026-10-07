@@ -1,5 +1,68 @@
 [
-  { "id": "comp-karstadt", "name": "Karstadt", "type": "Warenhaus" },
-  { "id": "comp-hertie", "name": "Hertie", "type": "Warenhaus" },
-  { "id": "comp-galeria", "name": "Galeria Karstadt Kaufhof", "type": "Warenhaus" }
+  {
+    "id": "comp-galeria",
+    "name": "Galeria Karstadt Kaufhof",
+    "type": "Warenhaus",
+    "description": "Aktuelle Warenhausgruppe der Galeria S.A. / NRDC Equity Partners & BB Capital."
+  },
+  {
+    "id": "comp-galeria-kaufhof",
+    "name": "Galeria Kaufhof",
+    "type": "Warenhaus",
+    "description": "Historische deutsche Warenhauskette, ehemals Kaufhof AG."
+  },
+  {
+    "id": "comp-karstadt",
+    "name": "Karstadt",
+    "type": "Warenhaus",
+    "description": "Historische deutsche Warenhauskette, ehemals Karstadt AG / Arcandor."
+  },
+  {
+    "id": "comp-hertie",
+    "name": "Hertie",
+    "type": "Warenhaus",
+    "description": "Historisches Warenhausunternehmen, 1994 von Karstadt übernommen."
+  },
+  {
+    "id": "comp-horten",
+    "name": "Horten",
+    "type": "Warenhaus",
+    "description": "Historische Warenhauskette mit charakteristischer Hortenkachel-Fassade, 1994 von Kaufhof übernommen."
+  },
+  {
+    "id": "comp-quelle",
+    "name": "Quelle",
+    "type": "Versandhandel / Kaufhaus",
+    "description": "Ehemaliges deutsches Versandhaus und Kaufhausgruppe (Quelle-Areal/Kaufhäuser)."
+  },
+  {
+    "id": "comp-arcandor",
+    "name": "Arcandor",
+    "type": "Mutterkonzern",
+    "description": "Ehemaliger Mutterkonzern von Karstadt, Quelle und Thomas Cook (Insolvenz 2009)."
+  },
+  {
+    "id": "comp-metro",
+    "name": "Metro AG",
+    "type": "Mutterkonzern / Einzelhandel",
+    "description": "Langjähriger ehemaliger Mutterkonzern der Kaufhof AG bis zum Verkauf an Hudson's Bay Company (HBC)."
+  },
+  {
+    "id": "comp-galeria-restaurant",
+    "name": "Galeria Restaurant / Dinea",
+    "type": "Gastronomie",
+    "description": "Kaufhaus-Gastronomie auf den oberen Etagen der Galeria-Filialen."
+  },
+  {
+    "id": "comp-pommeshelden",
+    "name": "Pommeshelden",
+    "type": "Gastronomie / Nachnutzung",
+    "description": "Fast-Food-Kette und Nachnutzer/Zwischennutzer von Erdgeschoss- und Gastronomieflächen in ehemaligen Warenstufen."
+  },
+  {
+    "id": "comp-adac-reise",
+    "name": "ADAC Reisevertrieb",
+    "type": "Reisebüro / Dienstleistung",
+    "description": "Übernehmer der 70 verbliebenen Galeria-Reisebüros im Jahr 2024."
+  }
 ]
