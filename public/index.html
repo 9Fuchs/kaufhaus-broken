@@ -1,26 +1,681 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kaufhaus-broken // Fachinformationssystem</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css" />
+    <title>kaufhaus-broken // Fachinformationssystem deutscher Warenhausstandorte</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS Variables and Map Marker Customizations -->
+    <style>
+        :root {
+            --status-active: #22c55e;
+            --status-closing: #eab308;
+            --status-closed: #ef4444;
+            --status-demolished: #1f2937;
+            --status-repurposed: #3b82f6;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        /* Custom Leaflet Dark/Urban Skin Overrides */
+        .leaflet-container {
+            background-color: #0b0f19 !important;
+            font-family: inherit;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: #1e293b;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .leaflet-popup-content {
+            margin: 0;
+            line-height: 1.5;
+            width: 320px !important;
+        }
+
+        @media (min-width: 640px) {
+            .leaflet-popup-content {
+                width: 380px !important;
+            }
+        }
+
+        .leaflet-popup-tip {
+            background: #1e293b;
+            border: 1px solid #334155;
+        }
+
+        .leaflet-container a.leaflet-popup-close-button {
+            color: #94a3b8;
+            padding: 8px;
+            font-size: 18px;
+        }
+
+        .leaflet-container a.leaflet-popup-close-button:hover {
+            color: #f8fafc;
+        }
+
+        /* Marker Pin Styling */
+        .custom-pin {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -2px rgba(0,0,0,0.4);
+            border: 2px solid #ffffff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .custom-pin i {
+            transform: rotate(45deg);
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .marker-cluster-hover:hover .custom-pin {
+            transform: rotate(-45deg) scale(1.15);
+            z-index: 1000 !important;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
 </head>
-<body>
-    <div id="app">
-        <header>
-            <h1>kaufhaus-broken</h1>
-            <p>Dokumentation &amp; Historie deutscher Warenhausstandorte</p>
-        </header>
-        <main>
-            <div id="map"></div>
+<body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
+
+    <!-- Header / Navigation Bar -->
+    <header class="bg-slate-900 border-b border-slate-800 px-4 py-3 z-30 flex flex-wrap items-center justify-between gap-4 shadow-md">
+        <div class="flex items-center gap-3">
+            <div class="bg-amber-500/10 border border-amber-500/30 p-2 rounded-lg text-amber-500">
+                <i class="fa-solid me-1 fa-store text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-none tracking-tight flex items-center gap-2">
+                    kaufhaus-broken <span class="text-xs font-mono font-normal bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700">v1.2</span>
+                </h1>
+                <p class="text-xs text-slate-400">Dokumentation &amp; Historie deutscher Warenhausstandorte</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3 ml-auto sm:ml-0">
+            <button id="btn-submit-hint" class="bg-amber-600 hover:bg-amber-500 text-slate-950 font-semibold px-3 py-1.5 rounded-lg text-xs sm:text-sm flex items-center gap-2 transition shadow-sm">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Hinweis senden</span>
+            </button>
+            <button id="btn-about" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs sm:text-sm flex items-center gap-2 transition">
+                <i class="fa-solid fa-circle-info"></i>
+                <span class="hidden sm:inline">Info & Datenschutz</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace (Sidebar Filter + Map + Detail Panel) -->
+    <div class="flex-1 flex flex-col md:flex-row relative overflow-hidden">
+        
+        <!-- Left Floating Sidebar Control Panel -->
+        <aside class="w-full md:w-80 bg-slate-900/95 border-b md:border-b-0 md:border-r border-slate-800 z-20 flex flex-col max-h-[40vh] md:max-h-full shadow-lg">
+            
+            <!-- Search & Filters -->
+            <div class="p-3 border-b border-slate-800 space-y-3">
+                <!-- Search Box -->
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                    <input type="text" id="search-input" placeholder="Stadt, Adresse oder Markenname..." class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500 transition">
+                </div>
+
+                <!-- Status Filter Pills -->
+                <div>
+                    <label class="text-[10px] uppercase font-mono tracking-wider text-slate-400 block mb-1.5">Status Filter</label>
+                    <div class="flex flex-wrap gap-1" id="status-filters">
+                        <button data-status="all" class="filter-btn active text-[11px] px-2 py-1 rounded-md border border-amber-500 bg-amber-500/10 text-amber-400 font-medium">Alle</button>
+                        <button data-status="active" class="filter-btn text-[11px] px-2 py-1 rounded-md border border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700">🟢 Aktiv</button>
+                        <button data-status="closing_announced" class="filter-btn text-[11px] px-2 py-1 rounded-md border border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700">🟡 Schließung</button>
+                        <button data-status="closed" class="filter-btn text-[11px] px-2 py-1 rounded-md border border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700">🔴 Geschlossen</button>
+                        <button data-status="demolished" class="filter-btn text-[11px] px-2 py-1 rounded-md border border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700">⚫ Abriss</button>
+                        <button data-status="repurposed" class="filter-btn text-[11px] px-2 py-1 rounded-md border border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700">🔵 Nachnutzung</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Locations List Output -->
+            <div class="flex-1 overflow-y-auto p-2 space-y-1" id="location-list">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Location Count Footer -->
+            <div class="px-3 py-2 bg-slate-950 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between items-center font-mono">
+                <span>Standorte geladen:</span>
+                <span id="location-count" class="font-bold text-amber-400">0</span>
+            </div>
+        </aside>
+
+        <!-- Leaflet Map Container -->
+        <main class="flex-1 h-full relative">
+            <div id="map" class="w-full h-full"></div>
+            
+            <!-- Map Legend Floating Panel -->
+            <div class="absolute bottom-6 right-3 z-[1000] bg-slate-900/90 border border-slate-800 backdrop-blur-md rounded-lg p-2.5 text-xs shadow-xl hidden sm:block">
+                <div class="font-semibold text-slate-300 text-[11px] mb-1.5 uppercase font-mono tracking-wider border-b border-slate-800 pb-1">Status Legende</div>
+                <div class="space-y-1 text-[11px]">
+                    <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <span>Aktiv geöffnet</span></div>
+                    <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> <span>Schließung angekündigt</span></div>
+                    <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> <span>Geschlossen / Leerstand</span></div>
+                    <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-600"></span> <span>Abgerissen</span></div>
+                    <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> <span>Nachnutzung / Umbau</span></div>
+                </div>
+            </div>
         </main>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="map.js"></script>
-    <script src="timeline.js"></script>
-    <script src="app.js"></script>
+    <!-- Modal: Community Hint / T-Online Submission -->
+    <div id="hint-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4">
+            <div class="flex justify-between items-start border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2 text-amber-400">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <h2 class="font-bold text-base">Community-Hinweis einreichen</h2>
+                </div>
+                <button class="close-modal text-slate-400 hover:text-slate-200"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <p class="text-xs text-slate-400 leading-relaxed">
+                kaufhaus-broken ist kein direkt editierbares Wiki. Um sachliche Richtigkeit zu gewährleisten, werden alle Vorschläge manuell geprüft. Das Ausfüllen generiert eine vorgefertigte E-Mail an die Redaktion.
+            </p>
+
+            <form id="hint-form" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Ihr Name / Pseudonym</label>
+                    <input type="text" id="hint-name" required placeholder="z. B. Max Mustermann" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Ihre E-Mail Adresse</label>
+                    <input type="email" id="hint-email" required placeholder="name@domain.de" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Betroffener Standort</label>
+                    <select id="hint-location" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Hinweis / Korrektur / Information</label>
+                    <textarea id="hint-text" rows="3" required placeholder="Welche Daten sind unvollständig oder falsch? Welche Verkaufsfläche oder Marke fehlt?" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Quelle / Beleg (URL oder Medienberichterstattung)</label>
+                    <input type="text" id="hint-source" placeholder="z. B. https://waz.de/artikel... oder RP Online" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" class="close-modal px-3 py-1.5 rounded-lg border border-slate-700 text-xs text-slate-300 hover:bg-slate-800">Abbrechen</button>
+                    <button type="submit" class="bg-amber-600 hover:bg-amber-500 text-slate-950 font-semibold px-4 py-1.5 rounded-lg text-xs flex items-center gap-1.5">
+                        <i class="fa-solid fa-envelope"></i> E-Mail Client öffnen
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Info, DSGVO, Impressum -->
+    <div id="about-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-lg w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-start border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2 text-slate-200">
+                    <i class="fa-solid fa-circle-info text-amber-500"></i>
+                    <h2 class="font-bold text-base">Über kaufhaus-broken</h2>
+                </div>
+                <button class="close-modal text-slate-400 hover:text-slate-200"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+                <h3 class="font-bold text-amber-400 text-sm">Projektziel &amp; Methode</h3>
+                <p>
+                    <strong>kaufhaus-broken</strong> ist ein gemeinnütziges Fachinformationssystem zur historischen und städtebaulichen Dokumentation der deutschen Warenhauslandschaft (u.a. Karstadt, Kaufhof, Horten, Hertie, Wertheim, Kaufhalle).
+                </p>
+                <p>
+                    Es unterscheidet präzise zwischen <strong>Standort (Geographie)</strong>, <strong>Gebäude (Architektur)</strong> und wechselnden <strong>Mietern / Handelsmarken (Betreiber)</strong>.
+                </p>
+
+                <h3 class="font-bold text-amber-400 text-sm mt-4">Datenschutz &amp; Compliance (DSGVO)</h3>
+                <p>
+                    Diese Website wird als statische Webanwendung über Cloudflare Pages gehostet. Es werden keine Tracker, Analyse-Skripte oder Cookies von Drittanbietern eingesetzt. 
+                </p>
+                <p>
+                    <strong>Kartendaten:</strong> Die Kartendarstellung nutzt OpenStreetMap-Tiles. Beim Laden der Kacheln wird Ihre IP-Adresse technisch bedingt an die Server der OpenStreetMap Foundation übermittelt.
+                </p>
+
+                <h3 class="font-bold text-amber-400 text-sm mt-4">Impressum</h3>
+                <p class="font-mono bg-slate-950 p-2.5 rounded border border-slate-800 text-[11px]">
+                    Projekt kaufhaus-broken<br>
+                    Bereitstellung: GitHub Pages / Cloudflare Pages<br>
+                    Repository: <a href="https://github.com/9Fuchs/kaufhaus-broken" target="_blank" class="text-amber-400 underline">github.com/9Fuchs/kaufhaus-broken</a><br>
+                    Kontakt: redaktion@t-online.de<br>
+                    Domain: kaufhaus-broken.ff9x.net
+                </p>
+
+                <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">
+                    © OpenStreetMap Contributors | Daten ohne Gewähr für Vollständigkeit.
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-end">
+                <button type="button" class="close-modal bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-1.5 rounded-lg text-xs">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script type="module">
+        // --- 1. SAMPLE DATA (REPRESENTATIVE GERMAN DEPARTMENT STORES) ---
+        const LOCATIONS_DATA = [
+            {
+                id: "loc-essen-limbecker",
+                name: "Karstadt Hauptsitz / Galeria Essen",
+                street: "Limbecker Platz 1",
+                city: "Essen",
+                lat: 51.4582,
+                lng: 7.0053,
+                yearbuilt: 1912,
+                yeardemolished: null,
+                current_status: "closing_announced", // active, closing_announced, closed, demolished, repurposed
+                tenants: [
+                    { company: "Althoff / Karstadt", brand: "Karstadt", from: "1912", to: "2020", floors: 6, floor_area: 42000 },
+                    { company: "Galeria Karstadt Kaufhof", brand: "Galeria", from: "2020", to: "heute", floors: 4, floor_area: 28000 }
+                ],
+                timeline: [
+                    { date: "1912-11-08", type: "OPENING", title: "Eröffnung Warenhaus Theodor Althoff", desc: "Prachtvoller Neubau am Limbecker Platz mit eindrucksvoller Natursteinfassade.", source: "Stadtarchiv Essen" },
+                    { date: "1920-01-01", type: "RENAMING", title: "Übernahme durch Karstadt AG", desc: "Zusammenführung der Althoff-Häuser in den Karstadt-Konzern.", source: "Wirtschaftsarchiv NRW" },
+                    { date: "1943-03-05", type: "REBUILD", title: "Kriegszerstörung und Wiederaufbau", desc: "Schwere Beschädigung im 2. Weltkrieg, sukzessiver Neu- und Erweiterungsbau bis 1952.", source: "WAZ Historie" },
+                    { date: "2008-03-13", type: "REBUILD", title: "Integration in Einkaufszentrum Limbecker Platz", desc: "Abbruch von Altbauten und Neueröffnung des Karstadt-Flagship-Stores im ECE-Center.", source: "ECE Presse" },
+                    { date: "2023-03-13", type: "INSOLVENCY", title: "Insolvenzverfahren & Schließungsliste", desc: "Galeria kündigt Schließung im Zuge des zweiten Schutzschirmverfahrens an.", source: "WAZ.de" },
+                    { date: "2024-04-27", type: "RUMOR", title: "Verhandlungsgespräche über Fortführung", desc: "Neue Investorengruppe Beetz/Baker prüft Weiterbetrieb reduzierter Flächen.", source: "Funke Mediengruppe" }
+                ]
+            },
+            {
+                id: "loc-duesseldorf-koenigsallee",
+                name: "Galeria Düsseldorf Königsallee (ex Kaufhof)",
+                street: "Königsallee 1-9",
+                city: "Düsseldorf",
+                lat: 51.2256,
+                lng: 6.7788,
+                yearbuilt: 1908,
+                yeardemolished: null,
+                current_status: "active",
+                tenants: [
+                    { company: "Leonhard Tietz AG", brand: "Tietz Warenhaus", from: "1908", to: "1933", floors: 5, floor_area: 18000 },
+                    { company: "Kaufhof AG", brand: "Kaufhof an der Kö", from: "1933", to: "2019", floors: 5, floor_area: 22000 },
+                    { company: "Galeria Karstadt Kaufhof", brand: "Galeria Weltstadthaus", from: "2019", to: "heute", floors: 5, floor_area: 22000 }
+                ],
+                timeline: [
+                    { date: "1908-07-14", type: "OPENING", title: "Eröffnung Warenhaus Tietz", desc: "Entworfen vom Star-Architekten Joseph Maria Olbrich. Meilenstein der Jugendstil-Kaufhausarchitektur.", source: "Rheinische Post" },
+                    { date: "1933-04-01", type: "NAMECHANGE", title: "Arisierung & Umbenennung in Kaufhof AG", desc: "Enteignung/Druck auf jüdische Eigentümer Familie Tietz, Umfirmierung der Gesellschaft.", source: "Düsseldorfer Geschichtsblätter" },
+                    { date: "2019-01-25", type: "RENAMING", title: "Fusion zu Galeria Kaufhof", desc: "Zusammenführung der Marke mit Karstadt.", source: "Handelsblatt" },
+                    { date: "2024-05-15", type: "REOPENING", title: "Bekenntnis zum Standort Königsallee", desc: "Standort wird als Premium-Weltstadthaus im Galeria-Filialnetz bestätigt.", source: "RP Online" }
+                ]
+            },
+            {
+                id: "loc-velbert-stadtgalerie",
+                name: "Hertie / Hertie-Kaufhaus Velbert",
+                street: "Friedrichstraße 180",
+                city: "Velbert",
+                lat: 51.3401,
+                lng: 7.0425,
+                yearbuilt: 1968,
+                yeardemolished: 2017,
+                current_status: "repurposed",
+                tenants: [
+                    { company: "Hertie GmbH / Karstadt", brand: "Hertie", from: "1968", to: "2009", floors: 3, floor_area: 8500 },
+                    { company: "Concepta Entwicklungs GmbH", brand: "StadtGalerie Velbert", from: "2019", to: "heute", floors: 2, floor_area: 9500 }
+                ],
+                timeline: [
+                    { date: "1968-09-26", type: "OPENING", title: "Eröffnung Kaufhaus Hertie", desc: "Zentraler Anziehungspunkt der Fußgängerzone Friedrichstraße.", source: "Velberter Zeitung Archive" },
+                    { date: "2009-08-15", type: "CLOSURE", title: "Endgültige Schließung nach Hertie-Insolvenz", desc: "Aus nach der Zerschlagung der Hertie GmbH (Dawnay Day). 10 Jahre Leerstand folgen.", source: "WAZ Velbert" },
+                    { date: "2017-03-01", type: "DEMOLITION", title: "Abriss des Hertie-Gussbeton-Baus", desc: "Vollständiger Rückbau des alten Hertie-Komplexes inklusive Parkdeck.", source: "Stadt Velbert Pressemitteilung" },
+                    { date: "2019-05-16", type: "NEWTENANT", title: "Eröffnung StadtGalerie Velbert", desc: "Neubau eines hybriden Einkaufszentrums auf dem Areal.", source: "NRZ" }
+                ]
+            },
+            {
+                id: "loc-koeln-hohestrasse",
+                name: "Kaufhof Hohe Straße / Galeria Köln",
+                street: "Hohe Straße 41-53",
+                city: "Köln",
+                lat: 50.9366,
+                lng: 6.9575,
+                yearbuilt: 1914,
+                yeardemolished: null,
+                current_status: "closed",
+                tenants: [
+                    { company: "Leonhard Tietz AG", brand: "Zentrale Tietz", from: "1914", to: "1933", floors: 6, floor_area: 31000 },
+                    { company: "Kaufhof AG", brand: "Kaufhof Zentrale & Filiale", from: "1933", to: "2023", floors: 6, floor_area: 35000 }
+                ],
+                timeline: [
+                    { date: "1914-04-01", type: "OPENING", title: "Eröffnung Prachtbau Hohe Straße", desc: "Zentrale des Tietz-Konzerns und eines der umsatzstärksten Warenhäuser Europas.", source: "Kölner Stadt-Anzeiger" },
+                    { date: "2023-06-30", type: "CLOSURE", title: "Schließung der Traditionsfiliale", desc: "Aufgabe des Standorts im Zuge der Signa-Krise.", source: "WDR Nachrichten" },
+                    { date: "2024-01-15", type: "RUMOR", title: "Diskussion um gemischte Nachnutzung", desc: "Konzepte für Universitätsteile, Einzelhandel und Kulturzentrum in Planung.", source: "Koeln.de" }
+                ]
+            }
+        ];
+
+        // STATUS CONFIGURATION
+        const STATUS_MAP = {
+            active: { label: "Aktiv", color: "#22c55e", bg: "bg-emerald-500/10", border: "border-emerald-500/30", text: "text-emerald-400", icon: "fa-store" },
+            closing_announced: { label: "Schließung angekündigt", color: "#eab308", bg: "bg-amber-500/10", border: "border-amber-500/30", text: "text-amber-400", icon: "fa-triangle-exclamation" },
+            closed: { label: "Geschlossen", color: "#ef4444", bg: "bg-red-500/10", border: "border-red-500/30", text: "text-red-400", icon: "fa-door-closed" },
+            demolished: { label: "Abgerissen", color: "#1f2937", bg: "bg-slate-800", border: "border-slate-700", text: "text-slate-400", icon: "fa-skull-crossbones" },
+            repurposed: { label: "Nachnutzung", color: "#3b82f6", bg: "bg-blue-500/10", border: "border-blue-500/30", text: "text-blue-400", icon: "fa-arrows-rotate" }
+        };
+
+        // GLOBAL APP STATE
+        let map;
+        let markersGroup;
+        const markersMap = new Map();
+        let currentFilter = "all";
+        let searchQuery = "";
+
+        // INITIALIZE LEAFLET MAP
+        function initMap() {
+            // Centered on NRW / Germany Middle
+            map = L.map('map', {
+                zoomControl: false
+            }).setView([51.3, 6.95], 9);
+
+            // Add Zoom Control at Top Right
+            L.control.zoom({ position: 'topright' }).addTo(map);
+
+            // OpenStreetMap Tiles (CartoDB Dark Matter / OSM Standard fallback)
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(map);
+
+            markersGroup = L.layerGroup().addTo(map);
+
+            renderMarkersAndList();
+        }
+
+        // CREATE CUSTOM SVG LEAFLET DIV ICON
+        function createCustomPinIcon(status) {
+            const config = STATUS_MAP[status] || STATUS_MAP.closed;
+            return L.divIcon({
+                className: 'marker-cluster-hover',
+                html: `
+                    <div class="custom-pin" style="background-color: ${config.color}">
+                        <i class="fa-solid ${config.icon}"></i>
+                    </div>
+                `,
+                iconSize: [36, 36],
+                iconAnchor: [18, 36],
+                popupAnchor: [0, -32]
+            });
+        }
+
+        // GENERATE POPUP HTML FOR A LOCATION
+        function buildPopupContent(loc) {
+            const statusConfig = STATUS_MAP[loc.current_status];
+            
+            // Build Tenants Table
+            const tenantsHtml = loc.tenants.map(t => `
+                <tr class="border-b border-slate-800 text-[11px]">
+                    <td class="py-1 font-medium text-slate-200">${t.brand}</td>
+                    <td class="py-1 text-slate-400">${t.from} – ${t.to}</td>
+                    <td class="py-1 text-right text-slate-300">${t.floor_area ? t.floor_area.toLocaleString('de-DE') + ' m²' : '-'}</td>
+                </tr>
+            `).join('');
+
+            // Build Timeline Events
+            const timelineHtml = loc.timeline.map(e => `
+                <div class="relative pl-4 border-l-2 border-slate-700 py-1 space-y-0.5">
+                    <div class="absolute -left-[5px] top-2 w-2 h-2 rounded-full bg-amber-500"></div>
+                    <div class="flex items-center justify-between text-[10px] text-slate-400">
+                        <span class="font-mono">${e.date}</span>
+                        <span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-semibold">${e.type}</span>
+                    </div>
+                    <div class="text-xs font-semibold text-slate-200">${e.title}</div>
+                    <p class="text-[11px] text-slate-400 leading-snug">${e.desc}</p>
+                    ${e.source ? `<div class="text-[10px] text-amber-400/80 italic">Quelle: ${e.source}</div>` : ''}
+                </div>
+            `).join('');
+
+            return `
+                <div class="p-4 space-y-3 bg-slate-900">
+                    <!-- Title & Status Header -->
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-1">
+                            <span class="text-[10px] uppercase tracking-wider font-mono px-2 py-0.5 rounded border ${statusConfig.bg} ${statusConfig.border} ${statusConfig.text}">
+                                ${statusConfig.label}
+                            </span>
+                            <span class="text-[10px] text-slate-400 font-mono">ID: ${loc.id}</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-100 leading-tight">${loc.name}</h3>
+                        <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot me-1 text-slate-500"></i>${loc.street}, ${loc.city}</p>
+                    </div>
+
+                    <!-- Building Meta Info -->
+                    <div class="grid grid-cols-2 gap-2 p-2 rounded-lg bg-slate-950 border border-slate-800 text-[11px]">
+                        <div><span class="text-slate-500 block">Baujahr:</span> <span class="font-medium text-slate-200">${loc.yearbuilt || 'Unbekannt'}</span></div>
+                        <div><span class="text-slate-500 block">Abrissjahr:</span> <span class="font-medium text-slate-200">${loc.yeardemolished || 'Steht noch'}</span></div>
+                    </div>
+
+                    <!-- Tenants / Belegungshistorie -->
+                    <div>
+                        <h4 class="text-[11px] font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-1 mb-1">
+                            <i class="fa-solid fa-users-viewfinder me-1 text-amber-500"></i> Belegungshistorie (Tenants)
+                        </h4>
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-[10px] text-slate-500 uppercase border-b border-slate-800">
+                                    <th class="pb-1">Marke</th>
+                                    <th class="pb-1">Zeitraum</th>
+                                    <th class="pb-1 text-right">Fläche</th>
+                                </tr>
+                            </thead>
+                            <tbody>${tenantsHtml}</tbody>
+                        </table>
+                    </div>
+
+                    <!-- Timeline / Historic Notes -->
+                    <div>
+                        <h4 class="text-[11px] font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-1 mb-2">
+                            <i class="fa-solid fa-timeline me-1 text-amber-500"></i> Historien-Chronik
+                        </h4>
+                        <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                            ${timelineHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // FILTER & SEARCH LOGIC
+        function filterLocations() {
+            return LOCATIONS_DATA.filter(loc => {
+                const matchesStatus = (currentFilter === "all") || (loc.current_status === currentFilter);
+                const query = searchQuery.toLowerCase();
+                const matchesSearch = !query || 
+                    loc.name.toLowerCase().includes(query) || 
+                    loc.city.toLowerCase().includes(query) || 
+                    loc.street.toLowerCase().includes(query) ||
+                    loc.tenants.some(t => t.brand.toLowerCase().includes(query));
+
+                return matchesStatus && matchesSearch;
+            });
+        }
+
+        // RENDER MARKERS AND SIDEBAR LIST
+        function renderMarkersAndList() {
+            markersGroup.clearLayers();
+            markersMap.clear();
+
+            const filtered = filterLocations();
+            const listEl = document.getElementById('location-list');
+            const countEl = document.getElementById('location-count');
+            
+            listEl.innerHTML = '';
+            countEl.textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `
+                    <div class="p-4 text-center text-slate-500 text-xs">
+                        Keine Standorte für diesen Filter gefunden.
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(loc => {
+                // 1. Create Leaflet Marker
+                const marker = L.marker([loc.lat, loc.lng], {
+                    icon: createCustomPinIcon(loc.current_status)
+                });
+
+                marker.bindPopup(buildPopupContent(loc));
+                markersGroup.addLayer(marker);
+                markersMap.set(loc.id, marker);
+
+                // 2. Render Sidebar Card Item
+                const statusConfig = STATUS_MAP[loc.current_status];
+                const card = document.createElement('div');
+                card.className = "p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 hover:border-slate-700 transition cursor-pointer space-y-1";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="font-semibold text-xs text-slate-200 truncate">${loc.name}</span>
+                        <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color: ${statusConfig.color}"></span>
+                    </div>
+                    <div class="text-[11px] text-slate-400"><i class="fa-solid fa-location-dot me-1 text-slate-500"></i>${loc.city}, ${loc.street}</div>
+                    <div class="flex justify-between items-center text-[10px] text-slate-500 font-mono pt-1 border-t border-slate-800/60">
+                        <span>Baujahr: ${loc.yearbuilt || '?'}</span>
+                        <span class="${statusConfig.text}">${statusConfig.label}</span>
+                    </div>
+                `;
+
+                // Click Card -> Zoom Map & Open Popup
+                card.addEventListener('click', () => {
+                    map.flyTo([loc.lat, loc.lng], 15, { duration: 1.2 });
+                    marker.openPopup();
+                });
+
+                listEl.appendChild(card);
+            });
+        }
+
+        // SETUP POPULATE SELECT IN MODAL
+        function populateModalLocations() {
+            const selectEl = document.getElementById('hint-location');
+            selectEl.innerHTML = LOCATIONS_DATA.map(loc => `
+                <option value="${loc.name} (${loc.city})">${loc.city} – ${loc.name}</option>
+            `).join('') + '<option value="Sonstiger / Neuer Standort">-- Neuer / Unbekannter Standort --</option>';
+        }
+
+        // EVENT LISTENERS BINDING
+        function setupEventListeners() {
+            // Search Input Event
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderMarkersAndList();
+            });
+
+            // Status Filter Buttons Event
+            document.getElementById('status-filters').addEventListener('click', (e) => {
+                const btn = e.target.closest('.filter-btn');
+                if (!btn) return;
+
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'border-amber-500', 'bg-amber-500/10', 'text-amber-400');
+                    b.classList.add('border-slate-800', 'bg-slate-950', 'text-slate-400');
+                });
+
+                btn.classList.add('active', 'border-amber-500', 'bg-amber-500/10', 'text-amber-400');
+                btn.classList.remove('border-slate-800', 'bg-slate-950', 'text-slate-400');
+
+                currentFilter = btn.dataset.status;
+                renderMarkersAndList();
+            });
+
+            // Modal Toggles
+            const hintModal = document.getElementById('hint-modal');
+            const aboutModal = document.getElementById('about-modal');
+
+            document.getElementById('btn-submit-hint').addEventListener('click', () => {
+                populateModalLocations();
+                hintModal.classList.remove('hidden');
+            });
+
+            document.getElementById('btn-about').addEventListener('click', () => {
+                aboutModal.classList.remove('hidden');
+            });
+
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    hintModal.classList.add('hidden');
+                    aboutModal.classList.add('hidden');
+                });
+            });
+
+            // Mailto Form Submission
+            document.getElementById('hint-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('hint-name').value;
+                const email = document.getElementById('hint-email').value;
+                const location = document.getElementById('hint-location').value;
+                const text = document.getElementById('hint-text').value;
+                const source = document.getElementById('hint-source').value;
+
+                const mailSubject = encodeURIComponent(`[kaufhaus-broken] Hinweis zu Standort: ${location}`);
+                const mailBody = encodeURIComponent(
+                    `KAUFHAUS-BROKEN COMMUNITY HINWEIS\n` +
+                    `----------------------------------------\n` +
+                    `Absender: ${name} (${email})\n` +
+                    `Betroffener Standort: ${location}\n\n` +
+                    `HINWEIS / DETAILS:\n${text}\n\n` +
+                    `QUELLE / BELEG:\n${source}\n`
+                );
+
+                window.location.href = `mailto:redaktion@t-online.de?subject=${mailSubject}&body=${mailBody}`;
+                hintModal.classList.add('hidden');
+            });
+        }
+
+        // INIT APP ON LOAD
+        window.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            setupEventListeners();
+        });
+    </script>
 </body>
 </html>
