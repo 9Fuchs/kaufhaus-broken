@@ -1,0 +1,98 @@
+[
+  {
+    "id": "hist-1879-stralsund",
+    "year": 1879,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-stralsund",
+    "title": "Erstes Geschäft von Leonhard Tietz in Stralsund",
+    "description": "Leonhard Tietz eröffnet sein erstes Textilgeschäft in Stralsund und legt damit den Grundstein für den späteren Kaufhof-Konzern."
+  },
+  {
+    "id": "hist-1884-schweinfurt",
+    "year": 1884,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-schweinfurt",
+    "title": "Eröffnung der Filiale Schweinfurt",
+    "description": "Expansion von Leonhard Tietz mit einer neuen Filiale in Schweinfurt."
+  },
+  {
+    "id": "hist-1889-elberfeld",
+    "year": 1889,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-wuppertal-elberfeld",
+    "title": "Eröffnung der Filiale Elberfeld",
+    "description": "Eröffnung einer weiteren Filiale im heutigen Wuppertal-Elberfeld."
+  },
+  {
+    "id": "hist-1890-headquarters-elberfeld",
+    "year": 1890,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-wuppertal-elberfeld",
+    "title": "Verlegung des Firmensitzes nach Elberfeld",
+    "description": "Leonhard Tietz verlegt den Hauptsitz seines Unternehmens von Stralsund nach Elberfeld."
+  },
+  {
+    "id": "hist-1891-koeln-hohestraße",
+    "year": 1891,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-koeln-hohe",
+    "title": "Eröffnung Filialkaufhaus Köln Hohe Straße",
+    "description": "Eröffnung eines ersten kleinen Filialkaufhauses auf der Kölner Hohe Straße."
+  },
+  {
+    "id": "hist-1897-headquarters-koeln",
+    "year": 1897,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-koeln-hohe",
+    "title": "Verlegung des Firmensitzes nach Köln",
+    "description": "Der Hauptsitz des Unternehmens wird von Elberfeld nach Köln verlegt."
+  },
+  {
+    "id": "hist-1905-aktiengesellschaft",
+    "year": 1905,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-koeln-hohe",
+    "title": "Gründung der Leonhard Tietz AG",
+    "description": "Umwandlung des Unternehmens in die Aktiengesellschaft 'Leonhard Tietz AG' und Umfirmierung aller bisherigen Filialen."
+  },
+  {
+    "id": "hist-1906-aachen",
+    "year": 1906,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-aachen",
+    "title": "Eröffnung Warenhaus Tietz Aachen",
+    "description": "Feierliche Eröffnung des repräsentativen Warenhauses der Leonhard Tietz AG in Aachen."
+  },
+  {
+    "id": "hist-1914-tod-tietz",
+    "year": 1914,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-koeln-hohe",
+    "title": "Unternehmensübernahme durch Alfred Leonhard Tietz",
+    "description": "Nach dem Tod von Leonhard Tietz am 14. November 1914 übernimmt sein ältester Sohn Alfred Leonhard Tietz die Unternehmensleitung."
+  },
+  {
+    "id": "hist-1929-jubilaeum",
+    "year": 1929,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": null,
+    "title": "50-jähriges Firmenjubiläum",
+    "description": "Zum Jubiläum betreibt die Leonhard Tietz AG eigene Produktionsstätten sowie 43 Filialen mit rund 15.000 Beschäftigten."
+  },
+  {
+    "id": "hist-1933-kaufhof-umbenennung",
+    "year": 1933,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-koeln-hohe",
+    "title": "Umfirmierung zur Westdeutschen Kaufhof AG",
+    "description": "Im Zuge der Arisierung unter den Nationalsozialisten wird die Aktiengesellschaft in 'Westdeutsche Kaufhof AG, vorm. Leonhard Tietz' umbenannt. Der innere organisatorische Aufbau bleibt erhalten."
+  },
+  {
+    "id": "hist-1936-kaufhof-zusatz-wegfall",
+    "year": 1936,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-koeln-hohe",
+    "title": "Wegfall des Namenszusatzes Tietz",
+    "description": "Der Namenszusatz 'vorm. Leonhard Tietz' fällt ersatzlos weg. Das Unternehmen firmiert fortan als Westdeutsche Kaufhof AG."
+  }
+]
