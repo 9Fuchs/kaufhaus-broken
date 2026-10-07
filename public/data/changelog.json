@@ -1,0 +1,11 @@
+[
+  {
+    "id": "chg-101",
+    "date": "2026-10-07T14:30:00Z",
+    "user": "Fabian",
+    "action": "UPDATE",
+    "object": "locations/loc-velbert-friedrichstr",
+    "old_value": "current_status: closed",
+    "new_value": "current_status: demolished"
+  }
+]

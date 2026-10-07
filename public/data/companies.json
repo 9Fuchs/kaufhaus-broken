@@ -1,0 +1,5 @@
+[
+  { "id": "comp-karstadt", "name": "Karstadt", "type": "Warenhaus" },
+  { "id": "comp-hertie", "name": "Hertie", "type": "Warenhaus" },
+  { "id": "comp-galeria", "name": "Galeria Karstadt Kaufhof", "type": "Warenhaus" }
+]
