@@ -95,4 +95,52 @@
     "title": "Wegfall des Namenszusatzes Tietz",
     "description": "Der Namenszusatz 'vorm. Leonhard Tietz' fällt ersatzlos weg. Das Unternehmen firmiert fortan als Westdeutsche Kaufhof AG."
   }
+  {
+    "id": "hist-2000-altona-closure",
+    "year": 2000,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-hamburg-altona",
+    "title": "Schließung Kaufhof Hamburg-Altona",
+    "description": "Schließung der Filiale im Bahnhof Altona. Die Flächen wurden anschließend von MediaMarkt, Lidl und kleineren Bahnhofsgeschäften übernommen."
+  },
+  {
+    "id": "hist-2007-luedenscheid-closure",
+    "year": 2007,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": "loc-luedenscheid",
+    "title": "Schließung Kaufhof Lüdenscheid",
+    "description": "Schließung des Standorts Lüdenscheid. Das Gebäude wurde in die Erweiterung der Einkaufsgalerie 'Sterncenter' integriert."
+  },
+  {
+    "id": "hist-2008-gmbh-conversion",
+    "year": 2008,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": null,
+    "title": "Umwandlung in Galeria Kaufhof GmbH",
+    "description": "Zum 1. Oktober 2008 wird die Kaufhof Warenhaus AG rechtsformwechselnd in die Galeria Kaufhof GmbH umgewandelt."
+  },
+  {
+    "id": "hist-2009-consolidation-announcement",
+    "year": 2009,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": null,
+    "title": "Ankündigung von Filialschließungen für 2010",
+    "description": "Im Rahmen des Konsolidierungsprozesses wird die Schließung der Filialen Krefeld (Am Ostwall), Leipzig-Paunsdorf, Mülheim an der Ruhr und Ludwigshafen für 2010 angekündigt. Mietverträge in Coburg, Gießen, Wesel und Worms werden verlängert."
+  },
+  {
+    "id": "hist-2012-wave-closures",
+    "year": 2012,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": null,
+    "title": "Schließungswelle Mitte 2012",
+    "description": "Zum 30. Juni 2012 werden die Filialen Gießen, Köln-Kalk, Nürnberg-Aufseßplatz (ehemals Horten-Zentrale) und Oberhausen-City geschlossen."
+  },
+  {
+    "id": "hist-2014-2015-closures",
+    "year": 2014,
+    "company_id": "comp-galeria-kaufhof",
+    "location_id": null,
+    "title": "Aufgabe weiterer Großstadt-Standorte",
+    "description": "Schließung und Aufgabe der Standorte Düsseldorf (Berliner Allee), Augsburg, Heilbronn (am Wollhauszentrum), Bielefeld, Berlin Ostbahnhof sowie des Spezialkonzepts 'Lust for Life' in Aachen."
+  }
 ]
