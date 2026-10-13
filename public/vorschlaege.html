@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vorschläge Review - Kaufhaus Broken</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="index.html">Home</a>
+            <a href="status.html">Status</a>
+            <a href="vorschlaege.html" class="btn-primary">Vorschläge</a>
+            <a href="crawl.html">Crawler Füttern</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Geprüfte &amp; offene Vorschläge</h1>
+        <p>Überprüfe die Rohentwürfe des Crawlers, passe Felder an und übernehme sie in die Produktiv-JSONs.</p>
+
+        <div id="submissions-container">
+            <p>Lade Vorschläge aus <code>raw_submissions.json</code>...</p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; Kaufhaus Broken</p>
+    </footer>
+
+    <script>
+        // Inline-Logik fürs Review (wird später in app.js oder ein eigenes Admin-JS ausgelagert)
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('submissions-container');
+            try {
+                const response = await fetch('data/raw_submissions.json');
+                if (!response.ok) throw new Error('Konnte raw_submissions.json nicht laden.');
+                const submissions = await response.json();
+
+                if (submissions.length === 0) {
+                    container.innerHTML = '<p>Keine offenen Vorschläge vorhanden.</p>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                submissions.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'submission-card';
+                    card.innerHTML = `
+                        <h3>${item.title || 'Ohne Titel'}</h3>
+                        <p><strong>Quelle:</strong> <a href="${item.source_url}" target="_blank" rel="noopener">${item.origin || item.source_url}</a></p>
+                        <p><strong>Snippet:</strong> ${item.snippet}</p>
+                        <div class="form-group">
+                            <label>Ziel-Datenbank:</label>
+                            <select id="target-file-${index}">
+                                <option value="locations.json">locations.json</option>
+                                <option value="companies.json">companies.json</option>
+                                <option value="history.json">history.json</option>
+                            </select>
+                        </div>
+                        <div class="card-actions">
+                            <button type="button" class="btn-success" onclick="approveItem(${index})">In JSON übernehmen</button>
+                            <button type="button" class="btn-danger" onclick="rejectItem(${index})">Verwerfen</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                container.innerHTML = `<p class="error">Fehler beim Laden der Vorschläge: ${err.message}</p>`;
+            }
+        });
+
+        function approveItem(index) {
+            alert('Eintrag ' + index + ' wurde freigegeben und in die Zieldatei einsortiert (Simulierter API-Call).');
+        }
+
+        function rejectItem(index) {
+            alert('Eintrag ' + index + ' wurde verworfen.');
+        }
+    </script>
+</body>
+</html>

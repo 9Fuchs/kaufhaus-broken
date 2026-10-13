@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crawler Input - Kaufhaus Broken</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="index.html">Home</a>
+            <a href="status.html">Status</a>
+            <a href="vorschlaege.html">Vorschläge</a>
+            <a href="crawl.html" class="btn-primary">Crawler Füttern</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Manuelle Crawler-Einspeisung</h1>
+        <p>Füttere den Parser direkt mit externen URLs oder unstrukturiertem Freitext (z. B. Notizen, Pressemitteilungen).</p>
+
+        <form id="crawl-input-form" class="admin-form">
+            <div class="form-group">
+                <label for="target-url">Ziel-URL (optional):</label>
+                <input type="url" id="target-url" name="url" placeholder="https://example.com/warenhaus-news">
+            </div>
+
+            <div class="form-group">
+                <label for="free-text">Freitext-Analyse:</label>
+                <textarea id="free-text" name="text" rows="6" placeholder="Füge hier Text ein, z.B. Schließung des Kaufhauses in Velbert angekündigt für 2027..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">Daten einlesen &amp; parsen</button>
+            <p id="feedback-msg" aria-live="polite"></p>
+        </form>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; Kaufhaus Broken</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>

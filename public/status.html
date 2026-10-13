@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systemstatus &amp; Statistiken - Kaufhaus Broken</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="index.html">Home</a>
+            <a href="status.html" class="btn-primary">Status</a>
+            <a href="vorschlaege.html">Vorschläge</a>
+            <a href="crawl.html">Crawler Füttern</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>System- &amp; Crawler-Status</h1>
+        
+        <section class="status-grid">
+            <div class="status-card">
+                <h2>Besucher-Aufrufe (Letzte 30 Tage)</h2>
+                <div class="stat-number">1.428</div>
+                <p class="stat-sub">Seitenaufrufe über Cloudflare Pages</p>
+            </div>
+            <div class="status-card">
+                <h2>Aktive Datenbanken</h2>
+                <p>Status: <span class="badge-ok">Gesund &amp; Synchron</span></p>
+            </div>
+        </section>
+
+        <section class="crawled-history">
+            <h2>Letzte 20 verarbeitete URLs</h2>
+            <div class="table-responsive">
+                <table class="status-table">
+                    <thead>
+                        <tr>
+                            <th>Zeitpunkt</th>
+                            <th>Typ</th>
+                            <th>URL / Quelle</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body">
+                        <tr>
+                            <td>2026-10-13 20:30</td>
+                            <td>RSS</td>
+                            <td>https://www.waz.de/rss</td>
+                            <td><span class="badge-ok">Erfolgreich (12 Items)</span></td>
+                        </tr>
+                        <!-- Dynamischer Loop wird hier eingefügt -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; Kaufhaus Broken</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
