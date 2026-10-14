@@ -1,4 +1,3 @@
-// Farb-Mapping für Gebäudestatus
 const STATUS_COLORS = {
     active: '#2ecc71',            // 🟢 Aktiv
     closing_announced: '#f1c40f', // 🟡 Schließung angekündigt
@@ -27,10 +26,9 @@ export function createMarkerIcon(status) {
 export function initMap(locations, onLocationSelect) {
     const map = L.map('map').setView([51.1657, 10.4515], 6); // Zentriert auf Deutschland
 
-    // Kostenloser, DSGVO-konformer Tile-Server von OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; OpenStreetMap Contributors'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
     locations.forEach(loc => {
@@ -41,13 +39,16 @@ export function initMap(locations, onLocationSelect) {
         }).addTo(map);
 
         const popupContent = document.createElement('div');
-        popupContent.innerHTML = `
-            <h4>${loc.name}</h4>
-            <p>${loc.street}, ${loc.postal_code} ${loc.city}</p>
-            <button class="btn-details" data-id="${loc.id}">Historie & Details anzeigen</button>
-        `;
+        const title = document.createElement('h4');
+        title.textContent = loc.name;
+        const address = document.createElement('p');
+        address.textContent = `${loc.street}, ${loc.postal_code} ${loc.city}`;
+        const detailsButton = document.createElement('button');
+        detailsButton.className = 'btn-details';
+        detailsButton.textContent = 'Historie & Details anzeigen';
+        popupContent.append(title, address, detailsButton);
 
-        popupContent.querySelector('.btn-details').addEventListener('click', () => {
+        detailsButton.addEventListener('click', () => {
             onLocationSelect(loc.id);
         });
 

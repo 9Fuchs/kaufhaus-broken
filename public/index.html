@@ -7,52 +7,20 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <header class="navbar">
-        <div class="logo">kaufhaus-broken <span>v1.0</span></div>
-        <nav>
-            <a href="#map-section">Karte</a>
-            <a href="#changelog" id="btn-changelog">Changelog</a>
-            <button id="btn-submit" class="btn-primary">Hinweis melden</button>
-            <a href="impressum.html">Impressum & Datenschutz</a>
+<body class="map-page">
+    <header class="site-header">
+        <a class="site-brand" href="index.html">kaufhaus-broken <span>Standorte & Geschichte</span></a>
+        <nav class="site-nav" aria-label="Hauptnavigation">
+            <a href="geschichte.html" class="btn-primary">Geschichte</a>
+            <a href="zeitleiste.html" class="btn-primary">Zeitleiste</a>
+            <a href="hinweise.html" class="btn-primary">Hinweis melden</a>
+            <a href="impressum.html" class="btn-primary">Impressum & Datenschutz</a>
         </nav>
     </header>
 
     <main class="main-layout">
         <div id="map"></div>
-        
-        <!-- Ausklappbare Sidebar für Historie & Details -->
-        <aside id="sidebar" class="sidebar hidden">
-            <button id="close-sidebar" class="close-btn">&times;</button>
-            <div id="sidebar-content"></div>
-        </aside>
     </main>
-
-    <!-- Modal für Community-Hinweise -->
-    <dialog id="modal-feedback">
-        <form id="feedback-form" action="mailto:DEINE_ADRESSE@t-online.de" method="post" enctype="text/plain">
-            <h3>Hinweis zu einem Standort einreichen</h3>
-            <p class="form-notice">Hinweise werden manuell geprüft. Es erfolgt keine direkte Veröffentlichung.</p>
-            
-            <label for="fb-name">Dein Name / Pseudonym:</label>
-            <input type="text" id="fb-name" name="Name" required>
-
-            <label for="fb-email">Deine E-Mail (für Rückfragen):</label>
-            <input type="email" id="fb-email" name="EMail" required>
-
-            <label for="fb-location">Standort / Stadt:</label>
-            <input type="text" id="fb-location" name="Standort" required>
-
-            <label for="fb-message">Dein Hinweis (Datum, Änderung, Quelle):</label>
-            <textarea id="fb-message" name="Hinweis_und_Quelle" rows="5" required></textarea>
-
-            <div class="form-actions">
-                <button type="submit" class="btn-primary">E-Mail Programm öffnen</button>
-                <button type="button" id="close-modal">Abbrechen</button>
-            </div>
-        </form>
-    </dialog>
-
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module" src="app.js"></script>
 </body>

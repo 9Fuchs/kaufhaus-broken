@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f3f3ed">
+    <title>Warenhäuser in der Geschichte | kaufhaus-broken</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="pages.js"></script>
+</head>
+<body class="content-page">
+    <header class="site-header">
+        <a class="site-brand" href="index.html">kaufhaus-broken <span>Standorte & Geschichte</span></a>
+        <nav class="site-nav" aria-label="Hauptnavigation">
+            <a href="geschichte.html" class="btn-primary" aria-current="page">Geschichte</a>
+            <a href="zeitleiste.html" class="btn-primary">Zeitleiste</a>
+            <a href="hinweise.html" class="btn-primary">Hinweis melden</a>
+            <a href="impressum.html" class="btn-primary">Impressum & Datenschutz</a>
+        </nav>
+    </header>
+    <main class="page-shell" data-page="history">
+        <a class="back-link" href="index.html">Zur Standortkarte</a>
+        <div class="page-heading">
+            <p class="eyebrow">Archiv deutscher Warenhäuser</p>
+            <h1>Warenhäuser in der Geschichte</h1>
+            <p class="page-intro">Unternehmensgeschichte, Eröffnungen und Einschnitte aus den dokumentierten Datensätzen.</p>
+        </div>
+        <section class="data-section" aria-labelledby="history-heading">
+            <div class="section-toolbar">
+                <h2 id="history-heading">Ereignisse</h2>
+                <label class="search-control">Suchen
+                    <input id="history-search" type="search" placeholder="Jahr, Ort oder Stichwort" autocomplete="off">
+                </label>
+            </div>
+            <p class="result-count" id="history-count" aria-live="polite"></p>
+            <ol class="event-list" id="history-list" aria-live="polite"></ol>
+            <p class="data-message" id="history-message" role="status"></p>
+        </section>
+    </main>
+    <footer class="site-footer"><a href="index.html">kaufhaus-broken</a><span>Dokumentation deutscher Warenhausstandorte</span></footer>
+</body>
+</html>

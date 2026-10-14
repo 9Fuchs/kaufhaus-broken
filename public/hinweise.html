@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f3f3ed">
+    <title>Hinweis melden | kaufhaus-broken</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="pages.js"></script>
+</head>
+<body class="content-page">
+    <header class="site-header">
+        <a class="site-brand" href="index.html">kaufhaus-broken <span>Standorte & Geschichte</span></a>
+        <nav class="site-nav" aria-label="Hauptnavigation">
+            <a href="geschichte.html" class="btn-primary">Geschichte</a>
+            <a href="zeitleiste.html" class="btn-primary">Zeitleiste</a>
+            <a href="hinweise.html" class="btn-primary" aria-current="page">Hinweis melden</a>
+            <a href="impressum.html" class="btn-primary">Impressum & Datenschutz</a>
+        </nav>
+    </header>
+    <main class="page-shell narrow-shell" data-page="hints">
+        <a class="back-link" href="index.html">Zur Standortkarte</a>
+        <div class="page-heading">
+            <p class="eyebrow">Gemeinsam dokumentieren</p>
+            <h1>Hinweis melden</h1>
+            <p class="page-intro">Fehlerhafte Angaben oder fehlende Informationen zu einem Warenhausstandort? Halte deinen Hinweis hier fest.</p>
+        </div>
+        <section class="form-section" aria-labelledby="hint-form-title">
+            <h2 id="hint-form-title">Neuen Hinweis erfassen</h2>
+            <p class="local-notice">Dein Hinweis wird nach der Sicherheitsprüfung per E-Mail an das Projekt gesendet. Bitte keine sensiblen oder vertraulichen Angaben eintragen.</p>
+            <form id="hint-form">
+                <label for="hint-subject">Betreff <span aria-hidden="true">*</span></label>
+                <input id="hint-subject" name="subject" type="text" maxlength="120" required>
+                <label for="hint-location">Standort oder Stadt</label>
+                <input id="hint-location" name="location" type="text" maxlength="120" placeholder="z. B. Kaufhof Hamburg-Altona">
+                <label for="hint-category">Art des Hinweises</label>
+                <select id="hint-category" name="category">
+                    <option>Standortdaten</option>
+                    <option>Historisches Ereignis</option>
+                    <option>Nachnutzung</option>
+                    <option>Sonstiges</option>
+                </select>
+                <label for="hint-message">Beschreibung <span aria-hidden="true">*</span></label>
+                <textarea id="hint-message" name="message" rows="6" maxlength="3000" required></textarea>
+                <label for="hint-email">Kontakt-E-Mail (optional)</label>
+                <input id="hint-email" name="email" type="email" maxlength="254" autocomplete="email">
+                <div class="honeypot" aria-hidden="true">
+                    <label for="hint-website">Website</label>
+                    <input id="hint-website" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-action="kaufhaus-hinweis" data-theme="light"></div>
+                <div class="form-actions">
+                    <button class="submit-button" type="submit">Hinweis senden</button>
+                    <p id="hint-status" class="form-status" role="status" aria-live="polite"></p>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer class="site-footer"><a href="index.html">kaufhaus-broken</a><span>Dokumentation deutscher Warenhausstandorte</span></footer>
+</body>
+</html>

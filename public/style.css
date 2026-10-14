@@ -49,6 +49,24 @@ main {
     overflow: hidden;
 }
 
+.map-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.map-page .main-layout {
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
+}
+
+.map-page #map {
+    min-height: 0;
+}
+
 #map {
 flex: 1;
 height: 100%;
@@ -129,4 +147,452 @@ right: 0;
     margin: 0;
     font-size: 0.85rem;
     color: #555;
+}
+.btn-primary, .submit-button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #f0ffff; /* Dein heller Hintergrund aus dem Bild */
+    color: #006600;            /* Deine Textfarbe */
+    border: 3px solid #7cfff0; /* Hier definierst du den festen Rahmen für alle! */
+    text-decoration: none;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.btn-primary:hover, .submit-button:hover {
+    background-color: #ffd700;
+}
+
+.content-page {
+    min-height: 100%;
+    height: auto;
+    background-color: #f3f3ed;
+    color: #172b26;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.55;
+}
+
+.content-page main {
+    display: block;
+    position: static;
+    height: auto;
+    overflow: visible;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px max(24px, calc((100% - 1120px) / 2));
+    border-bottom: 1px solid #cbd5cd;
+    background: #fbfcf8;
+}
+
+.site-brand {
+    display: flex;
+    flex-direction: column;
+    color: #173b32;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.22rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.site-brand span {
+    margin-top: 4px;
+    color: #687970;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.72rem;
+    font-weight: normal;
+}
+
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 5px 18px;
+}
+
+.site-nav a,
+.back-link,
+.site-footer a {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+.back-link,
+.site-footer a,
+.legal-section a {
+    color: #006600;
+}
+
+.site-nav a {
+    text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current='page'] {
+    color: #006600;
+    text-decoration: underline;
+}
+
+.page-shell {
+    width: min(100% - 48px, 960px);
+    min-height: calc(100vh - 164px);
+    margin: 0 auto;
+    padding: 24px 0 48px;
+}
+
+.narrow-shell {
+    width: min(100% - 48px, 760px);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.page-heading {
+    max-width: 760px;
+    margin-bottom: 32px;
+    padding-left: 20px;
+    border-left: 5px solid #6fbd9c;
+}
+
+.eyebrow {
+    margin: 0 0 8px;
+    color: #a3442f;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.page-heading h1 {
+    margin: 0;
+    color: #173b32;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 2.65rem;
+    font-weight: 500;
+    line-height: 1.12;
+}
+
+.page-intro {
+    max-width: 650px;
+    margin: 14px 0 0;
+    color: #53655d;
+    font-size: 1.05rem;
+}
+
+.data-section,
+.form-section,
+.legal-section {
+    margin-top: 30px;
+}
+
+.section-toolbar {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid #b9c8bf;
+}
+
+.section-toolbar h2,
+.form-section h2,
+.legal-section h2 {
+    margin: 0;
+    color: #173b32;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.55rem;
+    font-weight: 500;
+}
+
+.search-control {
+    display: grid;
+    gap: 5px;
+    color: #53655d;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.search-control input,
+.search-control select,
+#hint-form input,
+#hint-form select,
+#hint-form textarea {
+    min-height: 42px;
+    padding: 9px 11px;
+    border: 1px solid #aab9b0;
+    border-radius: 2px;
+    background: #fff;
+    color: #172b26;
+    font: inherit;
+}
+
+.search-control input:focus,
+.search-control select:focus,
+#hint-form input:focus,
+#hint-form select:focus,
+#hint-form textarea:focus {
+    outline: 3px solid #b8e1d1;
+    outline-offset: 1px;
+}
+
+.result-count,
+.data-message {
+    color: #66776f;
+    font-size: 0.88rem;
+}
+
+.result-count {
+    margin: 12px 0 0;
+}
+
+.event-list {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.event-entry {
+    display: grid;
+    grid-template-columns: 116px minmax(0, 1fr);
+    gap: 24px;
+    padding: 22px 4px;
+    border-bottom: 1px solid #d5ddd6;
+}
+
+.event-year {
+    align-self: start;
+    padding: 5px 9px;
+    border-left: 3px solid #c45639;
+    background: #e6eee8;
+    color: #23493c;
+    font-size: 0.88rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.event-copy h3 {
+    margin: 0 0 6px;
+    color: #183a31;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.22rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.event-copy p {
+    margin: 0 0 8px;
+    color: #46584f;
+}
+
+.event-copy .event-meta,
+.event-meta {
+    color: #718078;
+    font-size: 0.875rem;
+}
+
+.event-type {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: #a3442f;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.filters {
+    display: flex;
+    align-items: end;
+    gap: 12px;
+}
+
+.filters .search-control:first-child {
+    min-width: 220px;
+}
+
+.filters .search-control:last-child {
+    min-width: 170px;
+}
+
+.site-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px max(24px, calc((100% - 1120px) / 2));
+    border-top: 1px solid #cbd5cd;
+    color: #687970;
+    font-size: 0.8rem;
+}
+
+.form-section,
+.legal-section {
+    padding-top: 20px;
+    border-top: 1px solid #b9c8bf;
+}
+
+.local-notice,
+.legal-warning {
+    padding: 13px 16px;
+    border-left: 3px solid #c45639;
+    background: #f7e9e3;
+    color: #603b30;
+    font-size: 0.9rem;
+}
+
+#hint-form {
+    display: grid;
+    gap: 8px;
+    margin-top: 22px;
+}
+
+#hint-form label {
+    margin-top: 8px;
+    color: #334c41;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+#hint-form textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.cf-turnstile {
+    margin-top: 12px;
+}
+
+.submit-button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.submit-button {
+    min-height: 44px;
+}
+
+.form-status {
+    margin: 0;
+    color: #24594a;
+    font-size: 0.9rem;
+}
+
+.legal-section h3 {
+    margin: 24px 0 6px;
+    color: #24594a;
+    font-size: 1rem;
+}
+
+.legal-section p,
+.legal-section address {
+    max-width: 720px;
+    margin: 8px 0 14px;
+    color: #46584f;
+    font-style: normal;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 760px) {
+    .site-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+        padding: 16px 20px;
+    }
+
+    .site-nav {
+        justify-content: flex-start;
+        gap: 4px 16px;
+    }
+
+    .page-shell,
+    .narrow-shell {
+        width: min(100% - 36px, 960px);
+        padding-top: 22px;
+    }
+
+    .page-heading {
+        margin-bottom: 34px;
+    }
+
+    .page-heading h1 {
+        font-size: 2.1rem;
+    }
+
+    .section-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .search-control input,
+    .search-control select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .filters {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .filters .search-control:first-child,
+    .filters .search-control:last-child {
+        min-width: 0;
+    }
+
+    .event-entry {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 18px 0;
+    }
+
+    .event-year {
+        justify-self: start;
+    }
+
+    .site-footer {
+        flex-direction: column;
+        padding: 16px 20px;
+    }
+}
+
+.site-nav a:focus-visible,
+.back-link:focus-visible,
+.site-footer a:focus-visible,
+.legal-section a:focus-visible,
+.submit-button:focus-visible {
+    outline: 3px solid #006600;
+    outline-offset: 3px;
 }
