@@ -1,0 +1,35 @@
+{
+  "city": "Düsseldorf",
+  "locations": ["Königsallee", "Schadowstraße"],
+  "discount": "Waren gesperrt / Flatterband",
+  "blocked_brands": [
+    "Vossen", 
+    "Bassetti", 
+    "Joop", 
+    "Tommy Hilfiger", 
+    "Zwilling", 
+    "Fissler", 
+    "Ballarini", 
+    "Wenko", 
+    "Design Letters", 
+    "Remember", 
+    "Geox", 
+    "Fynch-Hatton", 
+    "Unbekannter Hersteller (Stoffe/Knöpfe)"
+  ],
+  "reason": "Insolvenzantrag am 2. Oktober 2026 beim Amtsgericht Düsseldorf",
+  "status": "Aktiv / Mit rot-weißem Flatterband abgesperrt",
+  "date_reported": "2026-10-15",
+  "source_text": "Recherche in Düsseldorfer Warenhäusern"
+}
+[
+  {
+    "city": "Trier",
+    "location": "Simeonstraße",
+    "discount": "25%",
+    "blocked_brands": ["Zwilling", "Geox", "Playmobil", "Vossen"],
+    "status": "Aktiv / Flatterband",
+    "date_reported": "2026-10-14",
+    "source_url": ""
+  }
+]
