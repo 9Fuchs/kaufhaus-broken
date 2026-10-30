@@ -1,8 +1,9 @@
 import re
 import datetime
 import xml.etree.ElementTree as ET
+from sources import get_source_config
 
-KEYWORDS = ["Galeria", "Karstadt", "Kaufhof", "Hertie", "Horten", "Warenhaus", "Insolvenz", "Schließung", "Eröffnung"]
+KEYWORDS = get_source_config()["keywords"]
 
 def parse_rss_xml(xml_content, feed_url):
     suggestions = []

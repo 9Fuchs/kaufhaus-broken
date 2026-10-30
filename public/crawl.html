@@ -3,50 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crawler Input - Kaufhaus Broken</title>
+    <title>Crawler &amp; Quellen - kaufhaus-broken</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="content-page">
-    <header class="site-header">
-        <a class="site-brand" href="index.html">kaufhaus-broken <span>Standorte & Geschichte</span></a>
-        <button class="hamburger-menu" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-nav">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
+<body>
+    <header class="site-header" data-site-header>
+        <a class="site-brand" href="index.html">kaufhaus-broken</a>
+        <button class="site-menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-navigation">
+            <span class="site-menu-icon" aria-hidden="true"></span>
         </button>
-        <nav id="site-nav" class="site-nav" aria-label="Hauptnavigation">
-            <div class="nav-row">
-                <a href="index.html" class="btn-primary">Standorte</a>
-                <a href="zeitleiste.html" class="btn-primary">Zeitleiste</a>
-                <a href="geschichte.html" class="btn-primary">Geschichte</a>
-                <a href="status.html" class="btn-primary">Status</a>
-                <a href="hinweise.html" class="btn-primary">Hinweis melden</a>
-            </div>
-            <div class="nav-row">
-                <a href="ausnahmen.html" class="btn-primary">Ausnahmen &amp; Marken</a>
-                <a href="crawl.html" class="btn-primary" aria-current="page">Crawler</a>
-                <a href="vorschlaege.html" class="btn-primary">Vorschläge</a>
-                <a href="impressum.html" class="btn-primary">Impressum &amp; Datenschutz</a>
-            </div>
+        <nav class="site-nav" id="site-navigation" aria-label="Hauptnavigation">
+            <a href="index.html">Karte</a>
+            <a href="status.html">Datenpflege</a>
+            <a href="vorschlaege.html">Kontakt</a>
+            <a href="crawl.html" aria-current="page">Crawler &amp; Quellen</a>
+            <a href="quellen.html">Quellen</a>
+            <a href="impressum.html">Impressum</a>
         </nav>
     </header>
 
     <main class="container">
-        <h1>Manuelle Crawler-Einspeisung</h1>
-        <p>Der Crawler läuft lokal und sammelt Fundstellen als Vorschläge. Diese statische Website startet keine Crawls und veröffentlicht keine Daten automatisch.</p>
-        <section class="crawler-instructions" aria-labelledby="crawler-local-heading">
-            <h2 id="crawler-local-heading">Lokal ausführen</h2>
-            <p>Im Repository-Ordner kannst du eine URL analysieren:</p>
-            <pre><code>python -m crawler.crawler --url "https://example.com/warenhaus-news"</code></pre>
-            <p>Oder eine Textdatei auswerten, ohne RSS-Feeds abzurufen:</p>
-            <pre><code>python -m crawler.crawler --text-file notiz.txt --no-feeds</code></pre>
-            <p>Gefundene Kandidaten landen lokal in <code>crawler/raw_submissions.json</code>. Prüfe Quelle und Inhalt; übernimm bestätigte Änderungen anschließend manuell in die passenden Datendateien und commite sie.</p>
+        <h1>Crawler &amp; Quellen</h1>
+        <p>RSS-Quellen und Suchbegriffe verwalten oder einen manuellen Hinweis zur Prüfung einreichen.</p>
+
+        <section class="admin-section" aria-labelledby="feeds-heading">
+            <div class="admin-section-heading">
+                <div>
+                    <h2 id="feeds-heading">RSS-Feeds</h2>
+                    <p>Die Python-Crawler-Konfiguration wird aus dieser Feedliste gelesen.</p>
+                </div>
+                <button id="add-feed" type="button">Feed hinzufügen</button>
+            </div>
+            <div id="feed-list" class="feed-list" aria-live="polite"></div>
+            <div class="form-group">
+                <label for="feed-keywords">Suchbegriffe, je Zeile ein Begriff</label>
+                <textarea id="feed-keywords" rows="5" spellcheck="false"></textarea>
+            </div>
+            <button id="save-feeds" type="button" class="btn-primary">Quellen speichern</button>
+            <p id="feed-message" class="form-message" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="admin-section" aria-labelledby="manual-heading">
+            <h2 id="manual-heading">Manueller Eintrag</h2>
+            <p>Der Hinweis wird als offener Vorschlag gespeichert. Eine angegebene URL wird als Quellenverweis abgelegt, nicht automatisch abgerufen.</p>
+            <form id="crawl-input-form" class="admin-form">
+                <div class="form-group">
+                    <label for="manual-title">Titel</label>
+                    <input type="text" id="manual-title" name="title" maxlength="200" required>
+                </div>
+                <div class="form-group">
+                    <label for="target-url">Quellen-URL (optional)</label>
+                    <input type="url" id="target-url" name="source_url" placeholder="https://example.org/bericht">
+                </div>
+                <div class="form-group">
+                    <label for="free-text">Notiz oder Textauszug</label>
+                    <textarea id="free-text" name="text" rows="6" maxlength="10000"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Zur Prüfung einspeisen</button>
+                <p id="feedback-msg" class="form-message" role="status" aria-live="polite"></p>
+            </form>
         </section>
     </main>
 
     <footer class="site-footer">
-        <p>&copy; Kaufhaus Broken</p>
+        <p>&copy; Kaufhaus Broken · <a href="quellen.html">Quellen &amp; Methodik</a></p>
     </footer>
-    <script type="module" src="app.js"></script>
+    <script src="header.js" defer></script>
+    <script src="crawler-admin.js" defer></script>
 </body>
 </html>

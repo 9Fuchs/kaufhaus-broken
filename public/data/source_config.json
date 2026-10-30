@@ -1,0 +1,30 @@
+{
+  "feeds": [
+    {
+      "name": "WAZ",
+      "url": "https://www.waz.de/rss",
+      "enabled": true
+    },
+    {
+      "name": "WDR",
+      "url": "https://www.wdr.de/nachrichten/index.rss",
+      "enabled": true
+    },
+    {
+      "name": "insolution.info",
+      "url": "https://www.insolution.info/rss",
+      "enabled": true
+    }
+  ],
+  "keywords": [
+    "Galeria",
+    "Karstadt",
+    "Kaufhof",
+    "Hertie",
+    "Horten",
+    "Warenhaus",
+    "Insolvenz",
+    "Schließung",
+    "Eröffnung"
+  ]
+}

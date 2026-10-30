@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quellen, Erhebungsmethoden und Datenverarbeitung von kaufhaus-broken.">
+    <title>Quellen &amp; Methodik – kaufhaus-broken</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="sources-page">
+    <header class="site-header" data-site-header>
+        <a class="site-brand" href="index.html">kaufhaus-broken</a>
+        <button class="site-menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-navigation">
+            <span class="site-menu-icon" aria-hidden="true"></span>
+        </button>
+        <nav class="site-nav" id="site-navigation" aria-label="Hauptnavigation">
+            <a href="index.html">Karte</a>
+            <a href="status.html">Datenpflege</a>
+            <a href="vorschlaege.html">Kontakt</a>
+            <a href="crawl.html">Crawler &amp; Quellen</a>
+            <a href="quellen.html" aria-current="page">Quellen</a>
+            <a href="impressum.html">Impressum</a>
+        </nav>
+    </header>
+
+    <main class="sources-main">
+        <a class="sources-back" href="index.html">&larr; Zurück zur Karte</a>
+        <p class="sources-kicker">Transparenz &amp; Datenherkunft</p>
+        <h1>Quellen und Methodik</h1>
+        <p class="sources-intro">Hier steht, aus welchen öffentlich erreichbaren Quellen Standort- und Statushinweise gewonnen werden und wie sie verarbeitet werden. Die Angaben beschreiben die im Projekt hinterlegte Konfiguration; sie sind kein vollständiges Protokoll tatsächlich ausgeführter Abrufe.</p>
+
+        <section class="sources-section" aria-labelledby="project-heading">
+            <h2 id="project-heading">Projekt</h2>
+            <p>Dieses private, nicht-kommerzielle Projekt dokumentiert Warenhausstandorte und bekannte Statusänderungen. Die Website stellt strukturierte Standortdaten und Verweise bereit. Es besteht keine organisatorische Verbindung zu den genannten Unternehmen.</p>
+        </section>
+
+        <section class="sources-section" aria-labelledby="collection-heading">
+            <h2 id="collection-heading">Erhebung und Verarbeitung</h2>
+            <h3>Manuelle Hinweise</h3>
+            <p>Standortdaten können redaktionell gepflegt und Hinweise manuell recherchiert werden. Im Projekt gibt es außerdem eine Eingabeseite für Freitext und Ziel-URLs. Der Parser kann daraus Vorschläge erzeugen; sie sind zunächst als ungeprüft markiert und nicht automatisch bestätigte Tatsachen.</p>
+
+            <h3>RSS-Feeds</h3>
+            <p>In der Feed-Konfiguration sind diese Quellen hinterlegt:</p>
+            <ul class="source-list">
+                <li><a href="https://www.waz.de/rss" target="_blank" rel="noopener noreferrer">WAZ – RSS</a></li>
+                <li><a href="https://www.wdr.de/nachrichten/index.rss" target="_blank" rel="noopener noreferrer">WDR – Nachrichten-RSS</a></li>
+                <li><a href="https://www.insolution.info/rss" target="_blank" rel="noopener noreferrer">insolution.info – RSS</a></li>
+            </ul>
+            <p>Ein Filter sucht in Überschriften und Beschreibungen nach Begriffen wie „Galeria“, „Karstadt“, „Warenhaus“, „Insolvenz“ oder „Schließung“. Treffer werden als Vorschläge mit Titel, Link, kurzem Beschreibungsausschnitt und Prüfstatus vorbereitet.</p>
+
+            <h3>Google Alerts</h3>
+            <p>Die Software sieht Google-Alerts-RSS-Feeds vor, aber die entsprechende Feed-Liste ist derzeit leer. Google Alerts werden daher nach dem aktuellen Repository-Stand nicht als aktive Quelle abgerufen. Ein automatischer Ausführungszeitplan ist ebenfalls nicht dokumentiert; aus der Feed-Konfiguration allein lässt sich kein tatsächlicher oder regelmäßiger Abruf ableiten.</p>
+        </section>
+
+        <section class="sources-section" aria-labelledby="map-heading">
+            <h2 id="map-heading">Karte und Geodaten</h2>
+            <p>Die Karte wird mit <a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer">Leaflet</a> dargestellt. Die Kartenkacheln kommen von <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>; die dort genannten Urheberrechts- und Lizenzhinweise gelten. Die Standortkoordinaten liegen im Projekt als strukturierte Daten vor.</p>
+        </section>
+
+        <section class="sources-section" aria-labelledby="rights-heading">
+            <h2 id="rights-heading">Inhalte und Korrekturen</h2>
+            <p>Der Crawler speichert bei RSS-Treffern kurze Ausschnitte aus Feed-Beschreibungen. Bei einer manuell angegebenen Webseite kann ebenfalls ein kurzer Textausschnitt als Vorschlag abgelegt werden. Die hier beschriebene Verarbeitung ist keine rechtliche Bewertung der jeweiligen Inhalte oder Nutzungsrechte. Wo verfügbar, wird auf den ursprünglichen Beitrag verlinkt; Bilder werden vom Crawler nicht übernommen.</p>
+            <p>Hinweise auf fehlerhafte Angaben oder Anliegen zur Prüfung beziehungsweise Entfernung bitte an eine erreichbare Projektkontaktadresse richten. Eine öffentliche Kontakt-E-Mail ist im aktuellen Projektstand noch nicht konfiguriert und muss vor Veröffentlichung hier ergänzt werden.</p>
+        </section>
+    </main>
+
+    <footer class="sources-footer">
+        <a href="index.html">Karte</a>
+        <a href="quellen.html" aria-current="page">Quellen &amp; Methodik</a>
+    </footer>
+    <script src="header.js" defer></script>
+</body>
+</html>
