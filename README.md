@@ -30,7 +30,19 @@ In Cloudflare Pages Umgebungsvariablen setzen:
 - `GITHUB_BRANCH`: Zielbranch, üblicherweise `main`.
 - `GITHUB_TOKEN`: Secret eines Fine-grained Tokens, begrenzt auf dieses Repository mit `Contents: Read and write`.
 
-Cloudflare Access muss mindestens `/status.html`, `/datenpflege.html`, `/crawl.html` und `/api/admin/*` schützen. Die Function verifiziert zusätzlich Signatur, Issuer, Audience, Ablaufzeit und die Admin-E-Mail. `standorte.json` hält `property_records`, die offene `closure_list` und quellenpflichtige `closure_waves`; öffentliche Immobilienangaben werden nur mit `review_status: "verified"` gerendert. RSS- und manuelle Crawl-Treffer können vorläufige Eigentümer-, Verkaufs-, Miet- und Übernahmehinweise enthalten; ein Immobilien-Review legt sie zunächst mit `pending_review` an.
+#### Cloudflare Access-Schutz
+
+Der Access-Schutz wird nicht durch einen Git-Commit aktiviert. Bis die Anwendung im Cloudflare-Zero-Trust-Dashboard angelegt und gespeichert ist, bleiben die statischen Seiten öffentlich erreichbar. In **Zero Trust → Access controls → Applications** eine `Self-hosted`-Anwendung für die Produktionsdomain anlegen, eine `Allow`-Policy mit der Admin-E-Mail-Allowlist hinzufügen und den gewünschten Identity Provider aktivieren. Access muss vor Pages mindestens diese Pfade schützen:
+
+- `/status.html`
+- `/datenpflege.html`
+- `/crawl.html`
+- `/crawler.html` (Pages leitet danach auf `/crawl.html` weiter)
+- `/api/admin/*`
+
+Access leitet nicht authentifizierte Browser automatisch zur Loginmaske um; nach erfolgreichem Login wird der ursprüngliche Pfad fortgesetzt. Dieselben Regeln auch für die `*.pages.dev`-Adresse anlegen oder diese alternative Domain deaktivieren, sonst könnte sie die geschützte Produktionsdomain umgehen. Die API verifiziert zusätzlich Signatur, Issuer, Audience, Ablaufzeit und Admin-E-Mail im Access-JWT.
+
+`standorte.json` hält `property_records`, die offene `closure_list` und quellenpflichtige `closure_waves`; öffentliche Immobilienangaben werden nur mit `review_status: "verified"` gerendert. RSS- und manuelle Crawl-Treffer können vorläufige Eigentümer-, Verkaufs-, Miet- und Übernahmehinweise enthalten; ein Immobilien-Review legt sie zunächst mit `pending_review` an.
 
 ### SMTP-Kontaktformular
 
