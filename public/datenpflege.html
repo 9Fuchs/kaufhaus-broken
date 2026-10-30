@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datenpflege &amp; Prüfung - kaufhaus-broken</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header" data-site-header>
+        <a class="site-brand" href="index.html">kaufhaus-broken</a>
+        <button class="site-menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-navigation">
+            <span class="site-menu-icon" aria-hidden="true"></span>
+        </button>
+        <nav class="site-nav" id="site-navigation" aria-label="Hauptnavigation">
+            <a href="index.html">Karte</a>
+            <a href="status.html">Status</a>
+            <a href="datenpflege.html" aria-current="page">Datenpflege</a>
+            <a href="vorschlaege.html">Kontakt</a>
+            <a href="crawl.html">Crawler</a>
+            <a href="ausnahmen.html">Ausnahmen</a>
+            <a href="standorte.html">Standorte</a>
+            <a href="zeitleiste.html">Zeitleiste</a>
+            <a href="quellen.html">Quellen</a>
+            <a href="impressum.html">Impressum</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Datenpflege &amp; Prüfung</h1>
+        <p>Offene manuelle und automatisch erfasste Vorschläge prüfen und JSON-Dateien bearbeiten. Speichern erstellt einen Commit im konfigurierten GitHub-Branch.</p>
+
+        <section class="admin-section" aria-labelledby="submissions-heading">
+            <h2 id="submissions-heading">Vorschläge zur Prüfung</h2>
+            <div id="submissions-container" class="submission-list" aria-live="polite">
+                <p>Vorschläge werden geladen …</p>
+            </div>
+        </section>
+
+        <section class="admin-section" aria-labelledby="json-heading">
+            <div class="admin-section-heading">
+                <div>
+                    <h2 id="json-heading">JSON-Dateien</h2>
+                    <p>Einträge und Felder direkt im JSON bearbeiten. Ungültiges JSON wird nicht gespeichert.</p>
+                </div>
+            </div>
+            <div class="editor-toolbar">
+                <label for="data-file">Datei</label>
+                <select id="data-file">
+                    <option value="locations.json">Standorte</option>
+                    <option value="companies.json">Unternehmen</option>
+                    <option value="history.json">Historie</option>
+                    <option value="tenants.json">Mieter</option>
+                    <option value="timeline_events.json">Zeitleiste</option>
+                    <option value="changelog.json">Änderungsprotokoll</option>
+                    <option value="submissions.json">Vorschläge</option>
+                    <option value="exclusions.json">Markenausnahmen</option>
+                    <option value="standorte.json">Standorte &amp; Immobilien</option>
+                </select>
+                <button id="reload-data" type="button">Neu laden</button>
+                <button id="add-json-row" type="button">Leeren Eintrag ergänzen</button>
+                <button id="save-data" type="button" class="btn-primary">JSON speichern</button>
+            </div>
+            <textarea id="json-editor" class="json-editor" rows="24" spellcheck="false" aria-label="JSON-Datei bearbeiten"></textarea>
+            <p id="data-message" class="form-message" role="status" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; Kaufhaus Broken · <a href="quellen.html">Quellen &amp; Methodik</a></p>
+    </footer>
+    <script src="header.js" defer></script>
+    <script src="status-admin.js" defer></script>
+</body>
+</html>

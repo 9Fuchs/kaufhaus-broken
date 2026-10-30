@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Standortstatus, Schließungen und verifizierte Immobilienangaben.">
+    <title>Standorte &amp; Immobilien - kaufhaus-broken</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header" data-site-header>
+        <a class="site-brand" href="index.html">kaufhaus-broken</a>
+        <button class="site-menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-navigation">
+            <span class="site-menu-icon" aria-hidden="true"></span>
+        </button>
+        <nav class="site-nav" id="site-navigation" aria-label="Hauptnavigation">
+            <a href="index.html">Karte</a>
+            <a href="status.html">Status</a>
+            <a href="datenpflege.html">Datenpflege</a>
+            <a href="vorschlaege.html">Kontakt</a>
+            <a href="crawl.html">Crawler</a>
+            <a href="ausnahmen.html">Ausnahmen</a>
+            <a href="standorte.html" aria-current="page">Standorte</a>
+            <a href="zeitleiste.html">Zeitleiste</a>
+            <a href="quellen.html">Quellen</a>
+            <a href="impressum.html">Impressum</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Standorte &amp; Immobilien</h1>
+        <p>Schließungsstatus und belegte Angaben zu Immobilieneigentum, Vermietung, Verkauf und kommunalen Übernahmen. Immobilienangaben erscheinen erst nach manueller Prüfung mit nachvollziehbarer Quelle.</p>
+
+        <section class="admin-section" aria-labelledby="closure-heading">
+            <h2 id="closure-heading">Schließungsliste Juli 2026</h2>
+            <p id="closure-summary" class="data-disclaimer">Lade geprüfte Schließungsdaten …</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>Standort</th><th>Stadt</th><th>Status</th><th>Schließungsjahr</th><th>Quelle</th></tr></thead>
+                    <tbody id="closure-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="admin-section" aria-labelledby="waves-heading">
+            <h2 id="waves-heading">Insolvenz- und Restrukturierungswellen</h2>
+            <p>Diese Zeiträume sind Recherchepunkte. Unbestätigte Angaben werden nicht als belegte Ereignisse ausgegeben.</p>
+            <div id="closure-waves" class="wave-list" aria-live="polite"></div>
+        </section>
+
+        <section class="admin-section" aria-labelledby="properties-heading">
+            <h2 id="properties-heading">Eigentümer, Miete &amp; Verkaufsangebote</h2>
+            <p>Eigentümer- und Verkaufsinformationen können aus RSS- oder Freitext-Vorschlägen übernommen werden. Erst nach Quellenprüfung und Eintrag in <code>standorte.json</code> werden sie hier öffentlich angezeigt.</p>
+            <div class="location-filters">
+                <label for="location-search">Filiale oder Stadt</label>
+                <input id="location-search" type="search" placeholder="Name oder Ort suchen">
+                <label for="location-status">Status</label>
+                <select id="location-status">
+                    <option value="">Alle</option>
+                    <option value="active">Aktiv</option>
+                    <option value="closed">Geschlossen</option>
+                    <option value="closing_announced">Schließung angekündigt</option>
+                    <option value="demolished">Abgerissen</option>
+                </select>
+                <label for="location-sale">Verkaufsangebot</label>
+                <select id="location-sale">
+                    <option value="">Alle</option>
+                    <option value="yes">Zum Verkauf</option>
+                    <option value="no">Kein Angebot vermerkt</option>
+                    <option value="unknown">Nicht verifiziert</option>
+                </select>
+            </div>
+            <p id="location-count" class="form-message" role="status" aria-live="polite">Lade Standorte …</p>
+            <div class="table-responsive">
+                <table class="data-table location-table">
+                    <thead><tr><th>Filiale</th><th>Status</th><th>Immobilieneigentümer</th><th>Verkauf</th><th>Miete / Stadt</th><th>Beleg</th></tr></thead>
+                    <tbody id="location-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p><a href="quellen.html">Quellen &amp; Methodik</a></p>
+    </footer>
+    <script src="header.js" defer></script>
+    <script src="standorte.js" defer></script>
+</body>
+</html>

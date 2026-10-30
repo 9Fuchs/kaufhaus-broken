@@ -6,6 +6,9 @@ export const DATA_FILES = new Set([
     'timeline_events.json',
     'changelog.json',
     'submissions.json',
+    'exclusions.json',
+    'standorte.json',
+    'crawler_status.json',
     'source_config.json'
 ]);
 
@@ -59,7 +62,16 @@ export async function readDataFile(env, file) {
 
     const config = configuration(env);
     const response = await fetch(contentsUrl(config, file), { headers: githubHeaders(config.token) });
-    if (response.status === 404) return { data: file === 'source_config.json' ? { feeds: [], keywords: [] } : [], sha: null };
+    if (response.status === 404) {
+        const emptyData = file === 'source_config.json'
+            ? { feeds: [], keywords: [] }
+            : file === 'standorte.json'
+                ? { property_records: [], closure_list: { period: '2026-07', expected_count: 33, verification_status: 'source_needed', records: [] }, closure_waves: [] }
+                : file === 'crawler_status.json'
+                    ? { last_run_at: null, success: null, runs: [] }
+                : [];
+        return { data: emptyData, sha: null };
+    }
     if (!response.ok) throw new Error(`GitHub konnte ${file} nicht lesen (HTTP ${response.status}).`);
 
     const result = await response.json();
@@ -77,6 +89,15 @@ export async function writeDataFile(env, file, data, expectedSha) {
     if (file === 'source_config.json') {
         if (!data || !Array.isArray(data.feeds) || !Array.isArray(data.keywords)) {
             throw new Error('Quellen benötigen eine feeds- und keywords-Liste.');
+        }
+    } else if (file === 'standorte.json') {
+        if (!data || !Array.isArray(data.property_records) || !Array.isArray(data.closure_waves)
+            || !data.closure_list || !Array.isArray(data.closure_list.records)) {
+            throw new Error('Standortdaten benötigen property_records, closure_list.records und closure_waves.');
+        }
+    } else if (file === 'crawler_status.json') {
+        if (!data || typeof data !== 'object' || !Array.isArray(data.runs)) {
+            throw new Error('crawler_status.json benötigt ein runs-Array.');
         }
     } else if (!Array.isArray(data)) {
         throw new Error('Diese Datendatei muss ein JSON-Array enthalten.');

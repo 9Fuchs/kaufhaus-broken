@@ -29,13 +29,18 @@ def get_source_config():
     }
 
 def fetch_feed(url):
+    content, _ = fetch_feed_with_error(url)
+    return content
+
+
+def fetch_feed_with_error(url):
     req = urllib.request.Request(url, headers={'User-Agent': 'KaufhausBrokenBot/1.0'})
     try:
         with urllib.request.urlopen(req, timeout=10) as response:
-            return response.read()
-    except Exception as e:
-        print(f"Fehler beim Abrufen von Feed {url}: {e}")
-        return None
+            return response.read(), None
+    except Exception as error:
+        print(f"Fehler beim Abrufen von Feed {url}: {type(error).__name__}")
+        return None, type(error).__name__
 
 def fetch_url_content(url):
     """Holt den Inhalt einer gezielten Website-URL für die Analyse."""
@@ -48,14 +53,32 @@ def fetch_url_content(url):
         return None
 
 def get_all_rss_contents():
-    content_list = []
+    return get_rss_feed_report()["contents"]
 
-    for feed in get_source_config()["feeds"]:
-        if not feed.get("enabled", True):
-            continue
+
+def get_rss_feed_report():
+    enabled_feeds = [feed for feed in get_source_config()["feeds"] if feed.get("enabled", True)]
+    contents = []
+    feed_results = []
+
+    for feed in enabled_feeds:
         feed_url = feed["url"]
-        content = fetch_feed(feed_url)
+        content, error = fetch_feed_with_error(feed_url)
         if content:
-            content_list.append((feed_url, content))
+            contents.append((feed_url, content))
+            feed_results.append({"name": feed.get("name", feed_url), "url": feed_url, "success": True})
+        else:
+            feed_results.append({
+                "name": feed.get("name", feed_url),
+                "url": feed_url,
+                "success": False,
+                "error": error or "EmptyResponse"
+            })
 
-    return content_list
+    return {
+        "configured": len(enabled_feeds),
+        "successful": len(contents),
+        "failed": len(enabled_feeds) - len(contents),
+        "feeds": feed_results,
+        "contents": contents
+    }

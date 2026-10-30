@@ -84,9 +84,30 @@ def extract_entities(text):
     
     # Bekannte Ketten als Platzhalter-Erkennung
     found_brands = [kw for kw in ["Galeria", "Karstadt", "Kaufhof", "Hertie", "Horten"] if re.search(r'\b' + re.escape(kw) + r'\b', text, re.IGNORECASE)]
+
+    owner_candidates = re.findall(
+        r'\b(?:Immobilien)?Eigent[uü]mer(?:in)?\s*(?:ist|sind|:|\-)?\s*([^.;\n]{2,100})',
+        text,
+        re.IGNORECASE
+    )
+    rent_candidates = re.findall(
+        r'\b(?:Miete|Mietbelastung|Mietpreis)[^\n€]{0,50}([\d.]+(?:,[\d]{1,2})?)\s*(?:€|Euro)',
+        text,
+        re.IGNORECASE
+    )
+    municipal_candidates = re.findall(
+        r'\b(?:Stadt|Kommune)\s+([A-ZÄÖÜ][\wÄÖÜäöüß-]*(?:\s+[A-ZÄÖÜ][\wÄÖÜäöüß-]*){0,2})\s+(?:kauft|übernimmt|erwirbt)',
+        text
+    )
     
     return {
         "brands_mentioned": list(set(found_brands)),
         "years_mentioned": list(set(years)),
-        "detected_title": f"Mögliches Update für {', '.join(found_brands)}" if found_brands else "Manueller Vorschlag"
+        "detected_title": f"Mögliches Update für {', '.join(found_brands)}" if found_brands else "Manueller Vorschlag",
+        "property_signals": {
+            "owner_candidates": [candidate.strip() for candidate in owner_candidates],
+            "sale_offer_mentioned": bool(re.search(r'\b(?:steht|steht zum|wird zum)\s+Verkauf\b|\bVerkaufsangebot\b', text, re.IGNORECASE)),
+            "rent_amounts_eur": list(dict.fromkeys(rent_candidates)),
+            "municipal_acquisition_candidates": list(dict.fromkeys(municipal_candidates))
+        }
     }

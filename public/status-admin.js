@@ -33,7 +33,9 @@ async function loadFile() {
     showMessage(dataMessage, 'Lade JSON …');
     try {
         const result = await adminRequest(`/api/admin/data?file=${encodeURIComponent(fileSelect.value)}`);
-        if (!Array.isArray(result.data)) throw new Error('Die Datei enthält kein JSON-Array und kann hier nicht bearbeitet werden.');
+        if (!Array.isArray(result.data) && fileSelect.value !== 'standorte.json') {
+            throw new Error('Die Datei enthält kein unterstütztes JSON-Array.');
+        }
         currentSha = result.sha;
         editor.value = JSON.stringify(result.data, null, 2);
         showMessage(dataMessage, `${fileSelect.value} geladen.`);
@@ -75,6 +77,18 @@ function renderSubmissions(submissions) {
         } else if (submission.snippet) {
             card.append(createTextElement('p', submission.snippet, 'submission-snippet'));
         }
+        const propertySignals = submission.extracted_data?.property_signals;
+        if (propertySignals) {
+            const signalSummary = [
+                ...(propertySignals.owner_candidates || []).map((owner) => `Eigentümer-Kandidat: ${owner}`),
+                propertySignals.sale_offer_mentioned ? 'Verkaufsabsicht erwähnt' : '',
+                ...(propertySignals.rent_amounts_eur || []).map((amount) => `Mietbetrag erwähnt: ${amount} EUR`),
+                ...(propertySignals.municipal_acquisition_candidates || []).map((city) => `Kommunale Übernahme erwähnt: ${city}`)
+            ].filter(Boolean);
+            if (signalSummary.length) {
+                card.append(createTextElement('p', `Ungeprüfte Parser-Signale: ${signalSummary.join(' · ')}`, 'submission-signals'));
+            }
+        }
 
         const actions = document.createElement('div');
         actions.className = 'submission-actions';
@@ -97,6 +111,54 @@ function renderSubmissions(submissions) {
             }
         });
         actions.append(copyButton);
+
+        const propertyButton = document.createElement('button');
+        propertyButton.type = 'button';
+        propertyButton.textContent = 'Immobilien-Review anlegen';
+        propertyButton.addEventListener('click', async () => {
+            propertyButton.disabled = true;
+            try {
+                const current = await adminRequest('/api/admin/data?file=standorte.json');
+                const records = current.data.property_records || [];
+                if (submission.source_url && records.some((record) => record.source_url === submission.source_url)) {
+                    showMessage(dataMessage, 'Zu dieser Quelle existiert bereits ein Immobilien-Review.');
+                    return;
+                }
+                records.push({
+                    id: `property-${crypto.randomUUID()}`,
+                    location_id: '',
+                    property_owner: '',
+                    owner_as_of: '',
+                    owner_source_url: '',
+                    sale_status: 'unknown',
+                    sale_offer_note: '',
+                    sale_offer_url: '',
+                    monthly_rent_eur: null,
+                    rent_source_url: '',
+                    municipal_acquisition: '',
+                    municipal_source_url: '',
+                    source_url: submission.source_url || '',
+                    source_note: submission.title || submission.snippet || '',
+                    parser_signals: submission.extracted_data?.property_signals || {},
+                    review_status: 'pending_review',
+                    reviewed_at: ''
+                });
+                await adminRequest('/api/admin/data', {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        file: 'standorte.json',
+                        data: { ...current.data, property_records: records },
+                        sha: current.sha
+                    })
+                });
+                showMessage(dataMessage, 'Offener Immobilien-Review angelegt. Im JSON-Editor Standort, Fakten und Belege ergänzen; erst danach review_status auf verified setzen.');
+            } catch (error) {
+                showMessage(dataMessage, error.message, true);
+            } finally {
+                propertyButton.disabled = false;
+            }
+        });
+        actions.append(propertyButton);
         card.append(actions);
         submissionsContainer.append(card);
     });
@@ -118,6 +180,27 @@ fileSelect.addEventListener('change', loadFile);
 document.getElementById('add-json-row').addEventListener('click', () => {
     try {
         const data = JSON.parse(editor.value);
+        if (fileSelect.value === 'standorte.json') {
+            data.property_records.push({
+                id: `property-${crypto.randomUUID()}`,
+                location_id: '',
+                property_owner: '',
+                owner_as_of: '',
+                owner_source_url: '',
+                sale_status: 'unknown',
+                sale_offer_url: '',
+                monthly_rent_eur: null,
+                rent_source_url: '',
+                municipal_acquisition: '',
+                municipal_source_url: '',
+                source_url: '',
+                review_status: 'pending_review',
+                reviewed_at: ''
+            });
+            editor.value = JSON.stringify(data, null, 2);
+            showMessage(dataMessage, 'Leerer Immobilien-Datensatz ergänzt. Quelle und Reviewstatus vor Veröffentlichung prüfen.');
+            return;
+        }
         if (!Array.isArray(data)) throw new Error('Die JSON-Datei muss ein Array sein.');
         data.push({});
         editor.value = JSON.stringify(data, null, 2);
@@ -131,7 +214,14 @@ document.getElementById('save-data').addEventListener('click', async () => {
     let data;
     try {
         data = JSON.parse(editor.value);
-        if (!Array.isArray(data)) throw new Error('Die JSON-Datei muss ein Array sein.');
+        if (fileSelect.value === 'standorte.json') {
+            if (!data || !Array.isArray(data.property_records) || !Array.isArray(data.closure_waves)
+                || !data.closure_list || !Array.isArray(data.closure_list.records)) {
+                throw new Error('Standortdaten benötigen property_records, closure_list.records und closure_waves.');
+            }
+        } else if (!Array.isArray(data)) {
+            throw new Error('Die JSON-Datei muss ein Array sein.');
+        }
     } catch (error) {
         showMessage(dataMessage, `JSON kann nicht gespeichert werden: ${error.message}`, true);
         return;

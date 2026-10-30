@@ -111,22 +111,20 @@ document.getElementById('save-feeds').addEventListener('click', async () => {
 
 manualForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    showMessage(manualMessage, 'Speichere Vorschlag …');
+    showMessage(manualMessage, 'Parser verarbeitet die Eingabe …');
 
     try {
-        const submissions = await adminRequest('/api/admin/data?file=submissions.json');
         const values = new FormData(manualForm);
-        const result = await adminRequest('/api/admin/submissions', {
+        const result = await adminRequest('/api/admin/parse', {
             method: 'POST',
             body: JSON.stringify({
                 title: values.get('title'),
                 source_url: values.get('source_url'),
-                text: values.get('text'),
-                sha: submissions.sha
+                text: values.get('text')
             })
         });
         manualForm.reset();
-        showMessage(manualMessage, `Vorschlag ${result.id} wurde für die Datenpflege gespeichert.`);
+        showMessage(manualMessage, result.added ? `Parsergebnis ${result.id} wurde in der Datenpflege abgelegt.` : result.message);
     } catch (error) {
         showMessage(manualMessage, error.message, true);
     }

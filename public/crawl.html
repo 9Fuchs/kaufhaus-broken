@@ -14,9 +14,13 @@
         </button>
         <nav class="site-nav" id="site-navigation" aria-label="Hauptnavigation">
             <a href="index.html">Karte</a>
-            <a href="status.html">Datenpflege</a>
+            <a href="status.html">Status</a>
+            <a href="datenpflege.html">Datenpflege</a>
             <a href="vorschlaege.html">Kontakt</a>
-            <a href="crawl.html" aria-current="page">Crawler &amp; Quellen</a>
+            <a href="crawl.html" aria-current="page">Crawler</a>
+            <a href="ausnahmen.html">Ausnahmen</a>
+            <a href="standorte.html">Standorte</a>
+            <a href="zeitleiste.html">Zeitleiste</a>
             <a href="quellen.html">Quellen</a>
             <a href="impressum.html">Impressum</a>
         </nav>
@@ -24,7 +28,7 @@
 
     <main class="container">
         <h1>Crawler &amp; Quellen</h1>
-        <p>RSS-Quellen und Suchbegriffe verwalten oder einen manuellen Hinweis zur Prüfung einreichen.</p>
+        <p>RSS-Quellen und Suchbegriffe verwalten oder eine Zielseite beziehungsweise Freitext direkt durch den Parser verarbeiten lassen.</p>
 
         <section class="admin-section" aria-labelledby="feeds-heading">
             <div class="admin-section-heading">
@@ -45,11 +49,11 @@
 
         <section class="admin-section" aria-labelledby="manual-heading">
             <h2 id="manual-heading">Manueller Eintrag</h2>
-            <p>Der Hinweis wird als offener Vorschlag gespeichert. Eine angegebene URL wird als Quellenverweis abgelegt, nicht automatisch abgerufen.</p>
+            <p>Eine URL wird serverseitig abgerufen und zusammen mit dem Freitext durch die Parserlogik ausgewertet. Das Ergebnis wird als ungeprüfter Vorschlag gespeichert.</p>
             <form id="crawl-input-form" class="admin-form">
                 <div class="form-group">
-                    <label for="manual-title">Titel</label>
-                    <input type="text" id="manual-title" name="title" maxlength="200" required>
+                    <label for="manual-title">Titel (optional, wird sonst erkannt)</label>
+                    <input type="text" id="manual-title" name="title" maxlength="200">
                 </div>
                 <div class="form-group">
                     <label for="target-url">Quellen-URL (optional)</label>
@@ -59,7 +63,7 @@
                     <label for="free-text">Notiz oder Textauszug</label>
                     <textarea id="free-text" name="text" rows="6" maxlength="10000"></textarea>
                 </div>
-                <button type="submit" class="btn-primary">Zur Prüfung einspeisen</button>
+                <button type="submit" class="btn-primary">Parsen und zur Prüfung ablegen</button>
                 <p id="feedback-msg" class="form-message" role="status" aria-live="polite"></p>
             </form>
         </section>

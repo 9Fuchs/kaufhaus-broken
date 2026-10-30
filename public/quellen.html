@@ -15,9 +15,13 @@
         </button>
         <nav class="site-nav" id="site-navigation" aria-label="Hauptnavigation">
             <a href="index.html">Karte</a>
-            <a href="status.html">Datenpflege</a>
+            <a href="status.html">Status</a>
+            <a href="datenpflege.html">Datenpflege</a>
             <a href="vorschlaege.html">Kontakt</a>
-            <a href="crawl.html">Crawler &amp; Quellen</a>
+            <a href="crawl.html">Crawler</a>
+            <a href="ausnahmen.html">Ausnahmen</a>
+            <a href="standorte.html">Standorte</a>
+            <a href="zeitleiste.html">Zeitleiste</a>
             <a href="quellen.html" aria-current="page">Quellen</a>
             <a href="impressum.html">Impressum</a>
         </nav>
@@ -42,14 +46,33 @@
             <h3>RSS-Feeds</h3>
             <p>In der Feed-Konfiguration sind diese Quellen hinterlegt:</p>
             <ul class="source-list">
-                <li><a href="https://www.waz.de/rss" target="_blank" rel="noopener noreferrer">WAZ – RSS</a></li>
-                <li><a href="https://www.wdr.de/nachrichten/index.rss" target="_blank" rel="noopener noreferrer">WDR – Nachrichten-RSS</a></li>
-                <li><a href="https://www.insolution.info/rss" target="_blank" rel="noopener noreferrer">insolution.info – RSS</a></li>
+                <li id="configured-feeds">Lade aktive Feed-Konfiguration …</li>
             </ul>
             <p>Ein Filter sucht in Überschriften und Beschreibungen nach Begriffen wie „Galeria“, „Karstadt“, „Warenhaus“, „Insolvenz“ oder „Schließung“. Treffer werden als Vorschläge mit Titel, Link, kurzem Beschreibungsausschnitt und Prüfstatus vorbereitet.</p>
 
             <h3>Google Alerts</h3>
-            <p>Die Software sieht Google-Alerts-RSS-Feeds vor, aber die entsprechende Feed-Liste ist derzeit leer. Google Alerts werden daher nach dem aktuellen Repository-Stand nicht als aktive Quelle abgerufen. Ein automatischer Ausführungszeitplan ist ebenfalls nicht dokumentiert; aus der Feed-Konfiguration allein lässt sich kein tatsächlicher oder regelmäßiger Abruf ableiten.</p>
+            <p>Die Software sieht Google-Alerts-RSS-Feeds vor, aber die entsprechende Feed-Liste ist derzeit leer. Google Alerts werden daher nicht als aktive Quelle abgerufen. Die aktivierten RSS-Feeds werden durch einen GitHub-Actions-Workflow täglich um 06:17 UTC und zusätzlich bei manuellem Workflow-Start geprüft.</p>
+        </section>
+
+        <section class="sources-section" aria-labelledby="processed-sources-heading">
+            <h2 id="processed-sources-heading">Verarbeitete Artikel- und Webseiten</h2>
+            <p>Hier erscheinen Originalseiten, die der Crawler in Vorschlägen oder geprüften Datensätzen referenziert. Ein RSS-Feed selbst ist nicht der Artikel; verlinkt wird, soweit vorhanden, die konkrete Beitragsseite.</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>Artikel / Webseite</th><th>Datensatz</th><th>JSON-Datei</th><th>Prüfstatus</th></tr></thead>
+                    <tbody id="processed-sources"><tr><td colspan="4">Lade Quellenverweise …</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="sources-section" aria-labelledby="data-map-heading">
+            <h2 id="data-map-heading">Welche JSON-Datei speist welche Seite?</h2>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>JSON</th><th>Verwendet von</th><th>Inhalt</th></tr></thead>
+                    <tbody id="data-page-map"></tbody>
+                </table>
+            </div>
         </section>
 
         <section class="sources-section" aria-labelledby="map-heading">
@@ -69,5 +92,6 @@
         <a href="quellen.html" aria-current="page">Quellen &amp; Methodik</a>
     </footer>
     <script src="header.js" defer></script>
+    <script src="quellen.js" defer></script>
 </body>
 </html>

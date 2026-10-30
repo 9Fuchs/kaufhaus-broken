@@ -1,0 +1,39 @@
+{
+  "property_records": [],
+  "closure_list": {
+    "period": "2026-07",
+    "expected_count": 33,
+    "verification_status": "source_needed",
+    "records": []
+  },
+  "closure_waves": [
+    {
+      "id": "wave-2020",
+      "period": "2020",
+      "title": "Insolvenzwelle 2020",
+      "verification_status": "source_needed",
+      "source_url": ""
+    },
+    {
+      "id": "wave-2022",
+      "period": "2022",
+      "title": "Insolvenzwelle 2022",
+      "verification_status": "source_needed",
+      "source_url": ""
+    },
+    {
+      "id": "wave-2024-01",
+      "period": "2024-01",
+      "title": "Insolvenzwelle Januar 2024",
+      "verification_status": "source_needed",
+      "source_url": ""
+    },
+    {
+      "id": "wave-2026-10",
+      "period": "2026-10",
+      "title": "Insolvenzwelle Oktober 2026",
+      "verification_status": "source_needed",
+      "source_url": ""
+    }
+  ]
+}
