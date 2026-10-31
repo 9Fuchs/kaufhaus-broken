@@ -1,3 +1,4 @@
 .dev.vars*
 .env*
 .wrangler/
+crawler/raw_submissions.json

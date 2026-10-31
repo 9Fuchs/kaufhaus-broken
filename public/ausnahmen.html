@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markenausschluesse &amp; Rabatte - Kaufhaus Broken</title>
+    <title>Markenausschlüsse &amp; Rabatte - Kaufhaus Broken</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="content-page">
@@ -23,7 +23,7 @@
                 <a href="hinweise.html" class="btn-primary">Hinweis melden</a>
             </div>
             <div class="nav-row">
-                <a href="ausnahmen%20.html" class="btn-primary" aria-current="page">Ausnahmen &amp; Marken</a>
+                <a href="ausnahmen.html" class="btn-primary" aria-current="page">Ausnahmen &amp; Marken</a>
                 <a href="crawl.html" class="btn-primary">Crawler</a>
                 <a href="vorschlaege.html" class="btn-primary">Vorschläge</a>
                 <a href="impressum.html" class="btn-primary">Impressum &amp; Datenschutz</a>
@@ -31,7 +31,7 @@
         </nav>
     </header>
 
-    <main class="container">
+    <main class="container" data-page="exceptions">
         <h1>Markenausschlüsse &amp; Abverkäufe</h1>
         <p>Übersicht über abgesperrte Regale, rot-weißes Flatterband, Rabattaktionen und von Lieferanten gestoppte Marken in den Filialen.</p>
 
@@ -44,39 +44,7 @@
         <p>&copy; Kaufhaus Broken</p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const container = document.getElementById('exclusions-container');
-            try {
-                const response = await fetch('data/exclusions.json');
-                if (!response.ok) throw new Error('Konnte exclusions.json nicht laden.');
-                const data = await response.json();
-
-                if (data.length === 0) {
-                    container.innerHTML = '<p>Keine aktuellen Markenausschlüsse erfasst.</p>';
-                    return;
-                }
-
-                let html = '<div class="table-responsive"><table class="status-table"><thead><tr><th>Filiale</th><th>Rabatt</th><th>Gesperrte Marken</th><th>Status / Datum</th></tr></thead><tbody>';
-                
-                data.forEach(item => {
-                    html += `
-                        <tr>
-                            <td><strong>${item.city}</strong><br><small>${item.location}</small></td>
-                            <td><span class="badge-warning">${item.discount}</span></td>
-                            <td>${item.blocked_brands.join(', ')}</td>
-                            <td>${item.status}<br><small>${item.date_reported}</small></td>
-                        </tr>
-                    `;
-                });
-
-                html += '</tbody></table></div>';
-                container.innerHTML = html;
-            } catch (err) {
-                container.innerHTML = `<p class="error">Fehler beim Laden der Daten: ${err.message}</p>`;
-            }
-        });
-    </script>
+    <script type="module" src="pages.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>

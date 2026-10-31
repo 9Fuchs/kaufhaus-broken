@@ -12,6 +12,17 @@ python -m http.server 8000 --directory public
 
 Dann `http://localhost:8000` öffnen. Ein Webserver ist nötig, damit Browser die JSON-Dateien laden können.
 
+## Crawler lokal ausführen
+
+Der Crawler ist ein lokales Werkzeug; die statische Website startet keine Crawls und schreibt keine Daten. Im Repository-Ordner:
+
+```sh
+python -m crawler.crawler --url "https://example.com/warenhaus-news"
+python -m crawler.crawler --text-file notiz.txt --no-feeds
+```
+
+Die Fundstellen werden zur Prüfung in `crawler/raw_submissions.json` abgelegt. Diese lokale Staging-Datei wird nicht versioniert oder automatisch veröffentlicht.
+
 ## Projektunterlagen
 
 - [Datenmodell](docs/data-model.md)

@@ -23,7 +23,7 @@
                 <a href="hinweise.html" class="btn-primary">Hinweis melden</a>
             </div>
             <div class="nav-row">
-                <a href="ausnahmen%20.html" class="btn-primary">Ausnahmen &amp; Marken</a>
+                <a href="ausnahmen.html" class="btn-primary">Ausnahmen &amp; Marken</a>
                 <a href="crawl.html" class="btn-primary" aria-current="page">Crawler</a>
                 <a href="vorschlaege.html" class="btn-primary">Vorschläge</a>
                 <a href="impressum.html" class="btn-primary">Impressum &amp; Datenschutz</a>
@@ -33,22 +33,15 @@
 
     <main class="container">
         <h1>Manuelle Crawler-Einspeisung</h1>
-        <p>Füttere den Parser direkt mit externen URLs oder unstrukturiertem Freitext (z. B. Notizen, Pressemitteilungen).</p>
-
-        <form id="crawl-input-form" class="admin-form">
-            <div class="form-group">
-                <label for="target-url">Ziel-URL (optional):</label>
-                <input type="url" id="target-url" name="url" placeholder="https://example.com/warenhaus-news">
-            </div>
-
-            <div class="form-group">
-                <label for="free-text">Freitext-Analyse:</label>
-                <textarea id="free-text" name="text" rows="6" placeholder="Füge hier Text ein, z.B. Schließung des Kaufhauses in Velbert angekündigt für 2027..."></textarea>
-            </div>
-
-            <button type="submit" class="btn-primary">Daten einlesen &amp; parsen</button>
-            <p id="feedback-msg" aria-live="polite"></p>
-        </form>
+        <p>Der Crawler läuft lokal und sammelt Fundstellen als Vorschläge. Diese statische Website startet keine Crawls und veröffentlicht keine Daten automatisch.</p>
+        <section class="crawler-instructions" aria-labelledby="crawler-local-heading">
+            <h2 id="crawler-local-heading">Lokal ausführen</h2>
+            <p>Im Repository-Ordner kannst du eine URL analysieren:</p>
+            <pre><code>python -m crawler.crawler --url "https://example.com/warenhaus-news"</code></pre>
+            <p>Oder eine Textdatei auswerten, ohne RSS-Feeds abzurufen:</p>
+            <pre><code>python -m crawler.crawler --text-file notiz.txt --no-feeds</code></pre>
+            <p>Gefundene Kandidaten landen lokal in <code>crawler/raw_submissions.json</code>. Prüfe Quelle und Inhalt; übernimm bestätigte Änderungen anschließend manuell in die passenden Datendateien und commite sie.</p>
+        </section>
     </main>
 
     <footer class="site-footer">

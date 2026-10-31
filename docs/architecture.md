@@ -25,6 +25,8 @@ Cloudflare dokumentiert für Pages Free derzeit 500 Builds pro Monat. Für diese
 
 - Menschen bearbeiten Daten über normale Git-Änderungen/Pull Requests.
 - Der Crawler sammelt ausschließlich Kandidaten und Quell-URLs. Er verändert niemals `public/data/` direkt und veröffentlicht nichts automatisch.
+- Lokal lässt er sich aus dem Repository-Ordner mit `python -m crawler.crawler --url "https://example.com/..."` oder `python -m crawler.crawler --text-file notiz.txt --no-feeds` starten. Ergebnisse landen in der ignorierten Staging-Datei `crawler/raw_submissions.json`.
+- Die statischen Seiten `crawl.html` und `vorschlaege.html` starten keine serverseitigen Jobs und schreiben keine JSON-Dateien. Die Vorschlagsansicht zeigt ausschließlich versionierte Einträge aus `public/data/submissions.json`; Freigaben erfolgen per Git-Änderung.
 - Eine Person vergleicht Kandidat und Quelle, korrigiert oder verwirft ihn und übernimmt bestätigte Fakten in die passenden Datensätze.
 - Jede neue Tatsachenbehauptung braucht eine konkrete Quelle. Unbestätigte Schließungsgerüchte werden nicht als Tatsache auf Karte oder Timeline angezeigt.
 - Git-Historie ist das Audit-Log. Die Impressums-/Datenschutzseite verlinkt direkt auf die Commit-Historie des Produktionsbranches. `changelog.json` ist kein zweites maßgebliches Audit-Log.

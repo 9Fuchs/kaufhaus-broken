@@ -209,6 +209,76 @@ main {
     overflow: visible;
 }
 
+.container {
+    width: min(100% - 48px, 1120px);
+    min-height: calc(100vh - 164px);
+    margin: 0 auto;
+    padding: 28px 0 48px;
+}
+
+.container > h1 {
+    margin: 0 0 16px;
+    color: #173b32;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.status-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fbfcf8;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.status-table th,
+.status-table td {
+    padding: 12px;
+    border: 1px solid #cbd5cd;
+    text-align: left;
+    vertical-align: top;
+}
+
+.status-table th {
+    background: #e6eee8;
+    color: #23493c;
+}
+
+.crawler-instructions,
+.submission-card {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid #cbd5cd;
+    background: #fbfcf8;
+}
+
+.crawler-instructions h2,
+.submission-card h2 {
+    margin-top: 0;
+    color: #173b32;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+}
+
+.crawler-instructions pre {
+    overflow-x: auto;
+    padding: 14px;
+    background: #e6eee8;
+}
+
+.crawler-instructions code {
+    overflow-wrap: anywhere;
+}
+
+.submission-list {
+    display: grid;
+    gap: 16px;
+}
+
 .site-header {
     display: flex;
     align-items: center;
@@ -590,6 +660,15 @@ main {
     .narrow-shell {
         width: min(100% - 36px, 960px);
         padding-top: 22px;
+    }
+
+    .container {
+        width: min(100% - 36px, 1120px);
+        padding-top: 22px;
+    }
+
+    .container > h1 {
+        font-size: 1.9rem;
     }
 
     .page-heading {

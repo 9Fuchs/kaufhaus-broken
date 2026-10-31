@@ -23,7 +23,7 @@
                 <a href="hinweise.html" class="btn-primary">Hinweis melden</a>
             </div>
             <div class="nav-row">
-                <a href="ausnahmen%20.html" class="btn-primary">Ausnahmen &amp; Marken</a>
+                <a href="ausnahmen.html" class="btn-primary">Ausnahmen &amp; Marken</a>
                 <a href="crawl.html" class="btn-primary">Crawler</a>
                 <a href="vorschlaege.html" class="btn-primary">Vorschläge</a>
                 <a href="impressum.html" class="btn-primary">Impressum &amp; Datenschutz</a>
@@ -31,50 +31,31 @@
         </nav>
     </header>
 
-    <main class="container">
+    <main class="container" data-page="status">
         <h1>System- &amp; Crawler-Status</h1>
-        
-        <section class="status-grid">
-            <div class="status-card">
-                <h2>Besucher-Aufrufe (Letzte 30 Tage)</h2>
-                <div class="stat-number">1.428</div>
-                <p class="stat-sub">Seitenaufrufe über Cloudflare Pages</p>
-            </div>
-            <div class="status-card">
-                <h2>Aktive Datenbanken</h2>
-                <p>Status: <span class="badge-ok">Gesund &amp; Synchron</span></p>
-            </div>
-        </section>
-
-        <section class="crawled-history">
-            <h2>Letzte 20 verarbeitete URLs</h2>
+        <p id="data-status-summary" class="data-message" role="status" aria-live="polite">Prüfe veröffentlichte Datensätze …</p>
+        <section class="crawled-history" aria-labelledby="data-status-heading">
+            <h2 id="data-status-heading">Veröffentlichte Daten</h2>
             <div class="table-responsive">
                 <table class="status-table">
                     <thead>
                         <tr>
-                            <th>Zeitpunkt</th>
-                            <th>Typ</th>
-                            <th>URL / Quelle</th>
+                            <th>Datensatz</th>
                             <th>Status</th>
+                            <th>Einträge / Fehler</th>
                         </tr>
                     </thead>
-                    <tbody id="history-table-body">
-                        <tr>
-                            <td>2026-10-13 20:30</td>
-                            <td>RSS</td>
-                            <td>https://www.waz.de/rss</td>
-                            <td><span class="badge-ok">Erfolgreich (12 Items)</span></td>
-                        </tr>
-                        <!-- Dynamischer Loop wird hier eingefügt -->
-                    </tbody>
+                    <tbody id="data-status-body"></tbody>
                 </table>
             </div>
         </section>
+        <p class="local-notice">Diese statische Seite misst keine Besucheraufrufe und zeigt keine Live-Läufe des Crawlers. Der Crawler läuft lokal; seine Funde werden vor einer Veröffentlichung geprüft.</p>
     </main>
 
     <footer class="site-footer">
         <p>&copy; Kaufhaus Broken</p>
     </footer>
+    <script type="module" src="pages.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>
