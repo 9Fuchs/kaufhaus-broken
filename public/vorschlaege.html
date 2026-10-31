@@ -6,13 +6,28 @@
     <title>Vorschläge Review - Kaufhaus Broken</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="content-page">
     <header class="site-header">
-        <nav class="site-nav">
-            <a href="index.html">Home</a>
-            <a href="status.html">Status</a>
-            <a href="vorschlaege.html" class="btn-primary">Vorschläge</a>
-            <a href="crawl.html">Crawler Füttern</a>
+        <a class="site-brand" href="index.html">kaufhaus-broken <span>Standorte & Geschichte</span></a>
+        <button class="hamburger-menu" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-nav">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Hauptnavigation">
+            <div class="nav-row">
+                <a href="index.html" class="btn-primary">Standorte</a>
+                <a href="zeitleiste.html" class="btn-primary">Zeitleiste</a>
+                <a href="geschichte.html" class="btn-primary">Geschichte</a>
+                <a href="status.html" class="btn-primary">Status</a>
+                <a href="hinweise.html" class="btn-primary">Hinweis melden</a>
+            </div>
+            <div class="nav-row">
+                <a href="ausnahmen%20.html" class="btn-primary">Ausnahmen &amp; Marken</a>
+                <a href="crawl.html" class="btn-primary">Crawler</a>
+                <a href="vorschlaege.html" class="btn-primary" aria-current="page">Vorschläge</a>
+                <a href="impressum.html" class="btn-primary">Impressum &amp; Datenschutz</a>
+            </div>
         </nav>
     </header>
 
@@ -79,5 +94,6 @@
             alert('Eintrag ' + index + ' wurde verworfen.');
         }
     </script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

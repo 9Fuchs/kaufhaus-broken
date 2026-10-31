@@ -6,9 +6,34 @@ html, body, #app {
     font-family: system-ui, -apple-system, sans-serif;
 }
 
+.nav-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 12px;
+}
+
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 8px;
+}
+
+.hamburger-menu span {
+    width: 25px;
+    height: 3px;
+    background-color: #006600;
+    margin: 3px 0;
+}
+
+
 #map {
-width: 100%;
-height: calc(100vh - 70px);
+    width: 100%;
+    height: calc(100vh - 70px);
 }
 
 .custom-map-marker {
@@ -41,6 +66,7 @@ height: calc(100vh - 70px);
 .btn-timeline:hover {
     background-color: #34495e;
 }
+
 /* Layout mit Sidebar */
 main {
     display: flex;
@@ -68,29 +94,29 @@ main {
 }
 
 #map {
-flex: 1;
-height: 100%;
+    flex: 1;
+    height: 100%;
 }
 
 /* Timeline Sidebar */
 #timeline-sidebar {
-position: absolute;
-right: -350px;
-top: 0;
-width: 320px;
-height: 100%;
-background: #ffffff;
-box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
-transition: right 0.3s ease-in-out;
-z-index: 1000;
-display: flex;
-flex-direction: column;
-padding: 15px;
-box-sizing: border-box;
+    position: absolute;
+    right: -350px;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
 #timeline-sidebar.open {
-right: 0;
+    right: 0;
 }
 
 .timeline-header {
@@ -187,6 +213,7 @@ right: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
     gap: 24px;
     padding: 18px max(24px, calc((100% - 1120px) / 2));
     border-bottom: 1px solid #cbd5cd;
@@ -524,7 +551,7 @@ right: 0;
     display: none !important;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
     .site-header {
         align-items: flex-start;
         flex-direction: column;
@@ -534,7 +561,29 @@ right: 0;
 
     .site-nav {
         justify-content: flex-start;
-        gap: 4px 16px;
+        display: none;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .hamburger-menu {
+        display: flex;
+        align-self: flex-end;
+    }
+
+    .site-nav.active {
+        display: flex;
+    }
+
+    .nav-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nav-row a {
+        text-align: left;
     }
 
     .page-shell,
@@ -589,6 +638,7 @@ right: 0;
 }
 
 .site-nav a:focus-visible,
+.hamburger-menu:focus-visible,
 .back-link:focus-visible,
 .site-footer a:focus-visible,
 .legal-section a:focus-visible,
