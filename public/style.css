@@ -735,7 +735,7 @@ main.main-layout {
     display: none !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 720px) {
     .site-header {
         align-items: flex-start;
         flex-direction: column;
@@ -752,13 +752,13 @@ main.main-layout {
         width: 100%;
     }
 
-    .hamburger-menu {
-        display: flex;
+    .site-menu-toggle {
+        display: inline-flex;
         align-self: flex-end;
     }
 
-    .site-nav.active {
-        display: flex;
+    .site-header.menu-open .site-nav {
+        display: grid;
     }
 
     .nav-row {
@@ -1441,9 +1441,13 @@ main.main-layout {
 
 .site-nav {
     display: grid;
-    grid-template-columns: repeat(5, max-content);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     justify-content: end;
     gap: var(--header-row-gap) var(--header-button-gap);
+}
+
+.nav-row {
+    display: contents;
 }
 
 .site-nav a,
@@ -1482,6 +1486,8 @@ main.main-layout {
 
 .site-menu-toggle {
     display: none;
+    flex-direction: column;
+    gap: 4px;
     width: 44px;
     height: 44px;
     align-items: center;
@@ -1491,6 +1497,14 @@ main.main-layout {
     background: var(--header-button-background);
     color: var(--header-button-text);
     cursor: pointer;
+}
+
+.site-menu-toggle .menu-line {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
 }
 
 .back-to-top {

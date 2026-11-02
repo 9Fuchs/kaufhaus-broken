@@ -1,25 +1,45 @@
+const navigationItems = [
+    ['Karte', 'index.html'],
+    ['Standorte', 'standorte.html'],
+    ['Zeitleiste', 'zeitleiste.html'],
+    ['Geschichte', 'geschichte.html'],
+    ['Status', 'status.html'],
+    ['Datenpflege', 'datenpflege.html'],
+    ['Crawler', 'crawl.html'],
+    ['Vorschläge', 'vorschlaege.html'],
+    ['Hinweis melden', 'hinweise.html'],
+    ['Ausnahmen', 'ausnahmen.html'],
+    ['Quellen', 'quellen.html'],
+    ['Impressum', 'impressum.html']
+];
+
 document.addEventListener('DOMContentLoaded', () => {
-    const header = document.querySelector('[data-site-header]');
-    const toggle = header?.querySelector('.site-menu-toggle');
+    const header = document.querySelector('.site-header');
     const navigation = header?.querySelector('.site-nav');
-    if (!header) return;
+    const toggle = header?.querySelector('.site-menu-toggle, .hamburger-menu');
+    if (!header || !navigation) return;
 
-    if (navigation) {
-        const addNavigationLink = (href, label, reference) => {
-            if (navigation.querySelector(`a[href="${href}"]`)) return;
-            const link = document.createElement('a');
-            link.href = href;
-            link.textContent = label;
-            if (window.location.pathname.endsWith(`/${href}`)) link.setAttribute('aria-current', 'page');
-            if (reference?.parentNode) reference.parentNode.insertBefore(link, reference.nextSibling);
-            else navigation.append(link);
-        };
+    navigation.id = 'site-navigation';
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    navigation.replaceChildren(...navigationItems.map(([label, href]) => {
+        const link = document.createElement('a');
+        link.href = href;
+        link.textContent = label;
+        if (href === currentPage) link.setAttribute('aria-current', 'page');
+        return link;
+    }));
 
-        const timelineLink = navigation.querySelector('a[href="zeitleiste.html"]');
-        addNavigationLink('geschichte.html', 'Geschichte', timelineLink);
-        const submissionsLink = navigation.querySelector('a[href="vorschlaege.html"]');
-        const feedbackButton = navigation.querySelector('#btn-submit');
-        addNavigationLink('hinweise.html', 'Hinweis melden', submissionsLink || feedbackButton);
+    if (toggle) {
+        toggle.className = 'site-menu-toggle';
+        toggle.setAttribute('aria-controls', navigation.id);
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Menü öffnen');
+        toggle.replaceChildren(...Array.from({ length: 3 }, () => {
+            const line = document.createElement('span');
+            line.className = 'menu-line';
+            line.setAttribute('aria-hidden', 'true');
+            return line;
+        }));
     }
 
     const backToTop = document.createElement('button');
@@ -52,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateScrollControls();
     });
 
-    if (!toggle || !navigation) return;
+    if (!toggle) return;
 
     const closeMenu = () => {
         header.classList.remove('menu-open');
