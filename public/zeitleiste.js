@@ -1,157 +1,74 @@
-const timelineList = document.getElementById('timeline-list');
-const timelineSearch = document.getElementById('timeline-search');
-const timelineType = document.getElementById('timeline-type');
-const timelinePeriod = document.getElementById('timeline-period');
-const timelineCompany = document.getElementById('timeline-company');
-const timelineCount = document.getElementById('timeline-count');
-let events = [];
-
-const eventLabels = {
-    OPENING: 'Eröffnung',
-    RENAMING: 'Übernahme / Umbenennung',
-    CLOSURE: 'Schließung',
-    DEMOLITION: 'Rückbau',
-    HISTORICAL: 'Unternehmensgeschichte'
+const getJSON = async (path) => {
+    const response = await fetch(path);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${path}`);
+    return response.json();
 };
 
-function normalizedDate(event) {
-    return event.event_date || `${event.year}-01-01`;
-}
+const makeElement = (tag, className, text) => {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
+    return element;
+};
 
-function displayLocation(locationId, locationNames) {
-    if (!locationId) return '';
-    return locationNames.get(locationId)
-        || locationId.replace(/^loc-/, '').replace(/-/g, ' ').replace(/\b[a-z]/g, (letter) => letter.toUpperCase());
-}
+const setMessage = (element, text) => {
+    element.textContent = text;
+};
 
-function renderTimeline() {
-    const query = timelineSearch.value.trim().toLocaleLowerCase('de');
-    const selectedType = timelineType.value;
-    const selectedPeriod = timelinePeriod.value;
-    const selectedCompany = timelineCompany.value;
-    const visibleEvents = events.filter((event) => {
-        const year = normalizedDate(event).slice(0, 4);
-        const decade = `${Math.floor(Number(year) / 10) * 10}s`;
-        const searchableText = [
-            event.event_date,
-            event.title,
-            event.description,
-            event.event_type,
-            eventLabels[event.event_type],
-            event.company_name,
-            event.location_name
-        ].filter(Boolean).join(' ').toLocaleLowerCase('de');
-        return searchableText.includes(query)
-            && (!selectedType || event.event_type === selectedType)
-            && (!selectedPeriod || decade === selectedPeriod)
-            && (!selectedCompany || event.company_id === selectedCompany);
-    });
+async function renderTimeline() {
+    const list = document.querySelector('#timeline-list');
+    const count = document.querySelector('#timeline-count');
+    const message = document.querySelector('#timeline-message');
+    const search = document.querySelector('#timeline-search');
+    const typeFilter = document.querySelector('#timeline-type');
 
-    timelineList.replaceChildren();
-    timelineCount.textContent = `${visibleEvents.length} ${visibleEvents.length === 1 ? 'Ereignis' : 'Ereignisse'}`;
+    try {
+        const [events, locations] = await Promise.all([
+            getJSON('./data/timeline_events.json'),
+            getJSON('./data/locations.json')
+        ]);
+        const locationNames = new Map(locations.map((location) => [location.id, location.name]));
+        const sortedEvents = events.slice().sort((a, b) => a.event_date.localeCompare(b.event_date) || a.id - b.id);
+        const eventTypes = [...new Set(sortedEvents.map((event) => event.event_type).filter(Boolean))].sort();
+        for (const type of eventTypes) {
+            const option = makeElement('option', '', type.replaceAll('_', ' '));
+            option.value = type;
+            typeFilter.append(option);
+        }
 
-    if (visibleEvents.length === 0) {
-        const empty = document.createElement('li');
-        empty.className = 'timeline-empty';
-        empty.textContent = 'Für diese Auswahl sind keine Ereignisse erfasst.';
-        timelineList.append(empty);
-        return;
+        const update = () => {
+            const query = search.value.trim().toLocaleLowerCase('de');
+            const visibleEvents = sortedEvents.filter((event) => {
+                const location = locationNames.get(event.location_id) || '';
+                const text = [event.event_date, event.title, event.description, location, event.event_type]
+                    .filter(Boolean).join(' ').toLocaleLowerCase('de');
+                return text.includes(query) && (!typeFilter.value || event.event_type === typeFilter.value);
+            });
+            list.replaceChildren(...visibleEvents.map((event) => {
+                const item = makeElement('li', 'event-entry');
+                const date = makeElement('time', 'event-year', new Date(`${event.event_date}T00:00:00`).toLocaleDateString('de-DE', { year: 'numeric', month: 'short', day: 'numeric' }));
+                date.dateTime = event.event_date;
+                item.append(date);
+                const content = makeElement('div', 'event-copy');
+                const locationName = locationNames.get(event.location_id) || 'Standort nicht zugeordnet';
+                content.append(makeElement('span', 'event-type', (event.event_type || 'Ereignis').replaceAll('_', ' ')));
+                content.append(makeElement('h3', '', event.title));
+                content.append(makeElement('p', '', event.description));
+                content.append(makeElement('p', 'event-meta', locationName));
+                item.append(content);
+                return item;
+            }));
+            setMessage(count, `${visibleEvents.length} von ${sortedEvents.length} Ereignissen`);
+            setMessage(message, visibleEvents.length ? '' : 'Keine passenden Ereignisse gefunden.');
+        };
+
+        search.addEventListener('input', update);
+        typeFilter.addEventListener('change', update);
+        update();
+    } catch (error) {
+        console.error('Zeitleistendaten konnten nicht geladen werden:', error);
+        setMessage(message, 'Die Zeitleistendaten konnten nicht geladen werden. Bitte prüfe, ob die Website über einen lokalen Webserver geöffnet ist.');
     }
-
-    visibleEvents.forEach((event) => {
-        const item = document.createElement('li');
-        item.className = 'history-timeline-item';
-        const date = normalizedDate(event);
-        const year = document.createElement('time');
-        year.className = 'history-timeline-date';
-        year.dateTime = date;
-        year.textContent = date.length > 4 ? new Intl.DateTimeFormat('de-DE', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`)) : date;
-
-        const content = document.createElement('div');
-        content.className = 'history-timeline-content';
-        const heading = document.createElement('h2');
-        heading.textContent = event.title || 'Ereignis ohne Titel';
-        const meta = document.createElement('p');
-        meta.className = 'history-timeline-meta';
-        const parts = [event.company_name || 'Standortgeschichte', event.location_name].filter(Boolean);
-        meta.textContent = `${eventLabels[event.event_type] || event.event_type || 'Meilenstein'} · ${parts.join(' · ')}`;
-        const description = document.createElement('p');
-        description.textContent = event.description || '';
-
-        content.append(heading, meta, description);
-        item.append(year, content);
-        timelineList.append(item);
-    });
 }
 
-Promise.all([
-    fetch('data/history.json').then((response) => {
-        if (!response.ok) throw new Error('history.json konnte nicht geladen werden.');
-        return response.json();
-    }),
-    fetch('data/timeline_events.json').then((response) => {
-        if (!response.ok) throw new Error('timeline_events.json konnte nicht geladen werden.');
-        return response.json();
-    }),
-    fetch('data/companies.json').then((response) => {
-        if (!response.ok) throw new Error('companies.json konnte nicht geladen werden.');
-        return response.json();
-    }),
-    fetch('data/locations.json').then((response) => {
-        if (!response.ok) throw new Error('locations.json konnte nicht geladen werden.');
-        return response.json();
-    })
-]).then(([history, locationEvents, companies, locations]) => {
-    if (![history, locationEvents, companies, locations].every(Array.isArray)) {
-        throw new Error('Mindestens eine Datenquelle hat ein ungültiges Format.');
-    }
-    const companyNames = new Map(companies.map((company) => [company.id, company.name]));
-    const locationNames = new Map(locations.map((location) => [location.id, `${location.name} · ${location.city}`]));
-    events = [
-        ...history.map((event) => ({
-            ...event,
-            event_type: 'HISTORICAL',
-            company_name: companyNames.get(event.company_id) || 'Unternehmensgeschichte',
-            location_name: displayLocation(event.location_id, locationNames)
-        })),
-        ...locationEvents.map((event) => ({
-            ...event,
-            company_name: '',
-            location_name: displayLocation(event.location_id, locationNames)
-        }))
-    ].sort((a, b) => normalizedDate(a).localeCompare(normalizedDate(b)) || String(a.title).localeCompare(String(b.title), 'de'));
-
-    const decades = [...new Set(events.map((event) => `${Math.floor(Number(normalizedDate(event).slice(0, 4)) / 10) * 10}s`))];
-    decades.forEach((decade) => {
-        const option = document.createElement('option');
-        option.value = decade;
-        option.textContent = decade;
-        timelinePeriod.append(option);
-    });
-    const companiesInTimeline = [...new Set(events.map((event) => event.company_id).filter(Boolean))];
-    companiesInTimeline.forEach((companyId) => {
-        const option = document.createElement('option');
-        option.value = companyId;
-        option.textContent = companyNames.get(companyId) || companyId;
-        timelineCompany.append(option);
-    });
-    const eventTypes = [...new Set(events.map((event) => event.event_type).filter(Boolean))].sort();
-    eventTypes.forEach((eventType) => {
-        const option = document.createElement('option');
-        option.value = eventType;
-        option.textContent = eventLabels[eventType] || eventType;
-        timelineType.append(option);
-    });
-    renderTimeline();
-}).catch((error) => {
-    timelineCount.textContent = 'Ereignisse konnten nicht geladen werden';
-    const item = document.createElement('li');
-    item.className = 'timeline-empty is-error';
-    item.textContent = error.message;
-    timelineList.append(item);
-});
-
-timelineSearch.addEventListener('input', renderTimeline);
-timelineType.addEventListener('change', renderTimeline);
-timelinePeriod.addEventListener('change', renderTimeline);
-timelineCompany.addEventListener('change', renderTimeline);
+renderTimeline();
