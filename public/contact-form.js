@@ -1,16 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('/api/contact', { headers: { Accept: 'application/json' } })
-        .then((response) => response.ok ? response.json() : Promise.reject())
-        .then(({ email }) => {
-            document.querySelectorAll('[data-contact-email]').forEach((element) => {
-                element.textContent = email || 'Kontaktadresse nicht konfiguriert';
+    const contactEmailElements = document.querySelectorAll('[data-contact-email]');
+    if (contactEmailElements.length) {
+        fetch('/api/contact', { headers: { Accept: 'application/json' } })
+            .then((response) => response.ok ? response.json() : Promise.reject())
+            .then(({ email }) => {
+                contactEmailElements.forEach((element) => {
+                    element.textContent = email || 'Kontaktadresse nicht konfiguriert';
+                });
+            })
+            .catch(() => {
+                contactEmailElements.forEach((element) => {
+                    element.textContent = 'Kontaktadresse momentan nicht verfügbar';
+                });
             });
-        })
-        .catch(() => {
-            document.querySelectorAll('[data-contact-email]').forEach((element) => {
-                element.textContent = 'Kontaktadresse momentan nicht verfügbar';
-            });
-        });
+    }
 
     document.querySelectorAll('[data-contact-form]').forEach((form) => {
         form.addEventListener('submit', (event) => {

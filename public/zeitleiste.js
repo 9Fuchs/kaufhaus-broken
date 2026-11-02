@@ -1,4 +1,6 @@
 const timelineList = document.getElementById('timeline-list');
+const timelineSearch = document.getElementById('timeline-search');
+const timelineType = document.getElementById('timeline-type');
 const timelinePeriod = document.getElementById('timeline-period');
 const timelineCompany = document.getElementById('timeline-company');
 const timelineCount = document.getElementById('timeline-count');
@@ -23,12 +25,25 @@ function displayLocation(locationId, locationNames) {
 }
 
 function renderTimeline() {
+    const query = timelineSearch.value.trim().toLocaleLowerCase('de');
+    const selectedType = timelineType.value;
     const selectedPeriod = timelinePeriod.value;
     const selectedCompany = timelineCompany.value;
     const visibleEvents = events.filter((event) => {
         const year = normalizedDate(event).slice(0, 4);
         const decade = `${Math.floor(Number(year) / 10) * 10}s`;
-        return (!selectedPeriod || decade === selectedPeriod)
+        const searchableText = [
+            event.event_date,
+            event.title,
+            event.description,
+            event.event_type,
+            eventLabels[event.event_type],
+            event.company_name,
+            event.location_name
+        ].filter(Boolean).join(' ').toLocaleLowerCase('de');
+        return searchableText.includes(query)
+            && (!selectedType || event.event_type === selectedType)
+            && (!selectedPeriod || decade === selectedPeriod)
             && (!selectedCompany || event.company_id === selectedCompany);
     });
 
@@ -120,6 +135,13 @@ Promise.all([
         option.textContent = companyNames.get(companyId) || companyId;
         timelineCompany.append(option);
     });
+    const eventTypes = [...new Set(events.map((event) => event.event_type).filter(Boolean))].sort();
+    eventTypes.forEach((eventType) => {
+        const option = document.createElement('option');
+        option.value = eventType;
+        option.textContent = eventLabels[eventType] || eventType;
+        timelineType.append(option);
+    });
     renderTimeline();
 }).catch((error) => {
     timelineCount.textContent = 'Ereignisse konnten nicht geladen werden';
@@ -129,5 +151,7 @@ Promise.all([
     timelineList.append(item);
 });
 
+timelineSearch.addEventListener('input', renderTimeline);
+timelineType.addEventListener('change', renderTimeline);
 timelinePeriod.addEventListener('change', renderTimeline);
 timelineCompany.addEventListener('change', renderTimeline);

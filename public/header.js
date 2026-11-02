@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const navigation = header?.querySelector('.site-nav');
     if (!header) return;
 
+    if (navigation) {
+        const addNavigationLink = (href, label, reference) => {
+            if (navigation.querySelector(`a[href="${href}"]`)) return;
+            const link = document.createElement('a');
+            link.href = href;
+            link.textContent = label;
+            if (window.location.pathname.endsWith(`/${href}`)) link.setAttribute('aria-current', 'page');
+            if (reference?.parentNode) reference.parentNode.insertBefore(link, reference.nextSibling);
+            else navigation.append(link);
+        };
+
+        const timelineLink = navigation.querySelector('a[href="zeitleiste.html"]');
+        addNavigationLink('geschichte.html', 'Geschichte', timelineLink);
+        const submissionsLink = navigation.querySelector('a[href="vorschlaege.html"]');
+        const feedbackButton = navigation.querySelector('#btn-submit');
+        addNavigationLink('hinweise.html', 'Hinweis melden', submissionsLink || feedbackButton);
+    }
+
     const backToTop = document.createElement('button');
     backToTop.type = 'button';
     backToTop.className = 'back-to-top';
