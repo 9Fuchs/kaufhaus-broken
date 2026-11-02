@@ -585,6 +585,7 @@ main.main-layout {
 
 #hint-form textarea {
     min-height: 140px;
+}
 
 .container {
     box-sizing: border-box;
