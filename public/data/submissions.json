@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "crawled_at": "2026-11-04T14:31:36.910384",
+    "source_type": "rss",
+    "origin": "https://www.waz.de/rss",
+    "title": "Ukraine greift Warenhaus von russischem Onlinehändler erneut mit Drohnen an",
+    "source_url": "https://www.waz.de/politik/article412317251/ukraine-news-krieg-russland-aktuell-angriff.html",
+    "snippet": "In dem Logistikzentrum von Ozon sei ein Feuer ausgebrochen. Nach vorläufigen Angaben gab es keine Verletzten. News zur Ukraine....",
+    "extracted_data": {
+      "brands_mentioned": [],
+      "years_mentioned": [],
+      "detected_title": "Manueller Vorschlag",
+      "property_signals": {
+        "owner_candidates": [],
+        "sale_offer_mentioned": false,
+        "rent_amounts_eur": [],
+        "municipal_acquisition_candidates": []
+      }
+    },
+    "status": "PENDING_REVIEW"
+  }
+]
