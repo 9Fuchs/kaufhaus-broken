@@ -1,20 +1,20 @@
 {
-  "started_at": "2026-11-04T14:31:33+00:00",
-  "finished_at": "2026-11-04T14:31:36+00:00",
+  "started_at": "2026-11-05T14:39:14+00:00",
+  "finished_at": "2026-11-05T14:39:16+00:00",
   "trigger": "schedule",
-  "success": true,
+  "success": false,
   "feeds": [
     {
       "name": "WAZ",
       "url": "https://www.waz.de/rss",
       "success": true,
-      "matched_items": 1
+      "matched_items": 0
     },
     {
       "name": "WDR",
       "url": "https://www.wdr.de/nachrichten/index.rss",
-      "success": true,
-      "matched_items": 0
+      "success": false,
+      "error": "HTTPError"
     },
     {
       "name": "insolution.info",
@@ -24,15 +24,50 @@
     }
   ],
   "configured_feeds": 3,
-  "successful_feeds": 3,
-  "failed_feeds": 0,
-  "processed_items": 1,
-  "new_suggestions": 1,
+  "successful_feeds": 2,
+  "failed_feeds": 1,
+  "processed_items": 0,
+  "new_suggestions": 0,
   "total_suggestions": 1,
   "error": null,
-  "last_run_at": "2026-11-04T14:31:36+00:00",
-  "duration_seconds": 3.84,
+  "last_run_at": "2026-11-05T14:39:16+00:00",
+  "duration_seconds": 2.03,
   "runs": [
+    {
+      "started_at": "2026-11-05T14:39:14+00:00",
+      "finished_at": "2026-11-05T14:39:16+00:00",
+      "trigger": "schedule",
+      "success": false,
+      "feeds": [
+        {
+          "name": "WAZ",
+          "url": "https://www.waz.de/rss",
+          "success": true,
+          "matched_items": 0
+        },
+        {
+          "name": "WDR",
+          "url": "https://www.wdr.de/nachrichten/index.rss",
+          "success": false,
+          "error": "HTTPError"
+        },
+        {
+          "name": "insolution.info",
+          "url": "https://www.insolution.info/rss",
+          "success": true,
+          "matched_items": 0
+        }
+      ],
+      "configured_feeds": 3,
+      "successful_feeds": 2,
+      "failed_feeds": 1,
+      "processed_items": 0,
+      "new_suggestions": 0,
+      "total_suggestions": 1,
+      "error": null,
+      "last_run_at": "2026-11-05T14:39:16+00:00",
+      "duration_seconds": 2.03
+    },
     {
       "started_at": "2026-11-04T14:31:33+00:00",
       "finished_at": "2026-11-04T14:31:36+00:00",
