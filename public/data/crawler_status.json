@@ -1,8 +1,8 @@
 {
-  "started_at": "2026-11-05T14:39:14+00:00",
-  "finished_at": "2026-11-05T14:39:16+00:00",
+  "started_at": "2026-11-06T14:16:03+00:00",
+  "finished_at": "2026-11-06T14:16:07+00:00",
   "trigger": "schedule",
-  "success": false,
+  "success": true,
   "feeds": [
     {
       "name": "WAZ",
@@ -13,8 +13,8 @@
     {
       "name": "WDR",
       "url": "https://www.wdr.de/nachrichten/index.rss",
-      "success": false,
-      "error": "HTTPError"
+      "success": true,
+      "matched_items": 0
     },
     {
       "name": "insolution.info",
@@ -24,15 +24,50 @@
     }
   ],
   "configured_feeds": 3,
-  "successful_feeds": 2,
-  "failed_feeds": 1,
+  "successful_feeds": 3,
+  "failed_feeds": 0,
   "processed_items": 0,
   "new_suggestions": 0,
   "total_suggestions": 1,
   "error": null,
-  "last_run_at": "2026-11-05T14:39:16+00:00",
-  "duration_seconds": 2.03,
+  "last_run_at": "2026-11-06T14:16:07+00:00",
+  "duration_seconds": 3.7,
   "runs": [
+    {
+      "started_at": "2026-11-06T14:16:03+00:00",
+      "finished_at": "2026-11-06T14:16:07+00:00",
+      "trigger": "schedule",
+      "success": true,
+      "feeds": [
+        {
+          "name": "WAZ",
+          "url": "https://www.waz.de/rss",
+          "success": true,
+          "matched_items": 0
+        },
+        {
+          "name": "WDR",
+          "url": "https://www.wdr.de/nachrichten/index.rss",
+          "success": true,
+          "matched_items": 0
+        },
+        {
+          "name": "insolution.info",
+          "url": "https://www.insolution.info/rss",
+          "success": true,
+          "matched_items": 0
+        }
+      ],
+      "configured_feeds": 3,
+      "successful_feeds": 3,
+      "failed_feeds": 0,
+      "processed_items": 0,
+      "new_suggestions": 0,
+      "total_suggestions": 1,
+      "error": null,
+      "last_run_at": "2026-11-06T14:16:07+00:00",
+      "duration_seconds": 3.7
+    },
     {
       "started_at": "2026-11-05T14:39:14+00:00",
       "finished_at": "2026-11-05T14:39:16+00:00",
