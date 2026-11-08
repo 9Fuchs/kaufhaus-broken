@@ -18,5 +18,25 @@
       }
     },
     "status": "PENDING_REVIEW"
+  },
+  {
+    "crawled_at": "2026-11-08T13:23:42.536672",
+    "source_type": "rss",
+    "origin": "https://www.waz.de/rss",
+    "title": "Neue Zentralbibliothek in Essen: „Willkommen ist auch, wer sich nur aufwärmen will“",
+    "source_url": "https://www.waz.de/lokales/essen/article413609282/neue-zentralbibliothek-in-essen-willkommen-ist-auch-wer-sich-nur-aufwaermen-will.html",
+    "snippet": "Nach der umjubelten Eröffnung: Die Direktorin über nicht enden wollendes Lob, gestohlene Kinder-Hörbücher und problematische Gäste. Ernster Appell an Eltern mit Kindern....",
+    "extracted_data": {
+      "brands_mentioned": [],
+      "years_mentioned": [],
+      "detected_title": "Manueller Vorschlag",
+      "property_signals": {
+        "owner_candidates": [],
+        "sale_offer_mentioned": false,
+        "rent_amounts_eur": [],
+        "municipal_acquisition_candidates": []
+      }
+    },
+    "status": "PENDING_REVIEW"
   }
 ]
