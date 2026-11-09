@@ -1,6 +1,6 @@
 {
-  "started_at": "2026-11-08T13:23:39+00:00",
-  "finished_at": "2026-11-08T13:23:42+00:00",
+  "started_at": "2026-11-09T16:17:39+00:00",
+  "finished_at": "2026-11-09T16:17:45+00:00",
   "trigger": "schedule",
   "success": true,
   "feeds": [
@@ -28,11 +28,46 @@
   "failed_feeds": 0,
   "processed_items": 1,
   "new_suggestions": 1,
-  "total_suggestions": 2,
+  "total_suggestions": 3,
   "error": null,
-  "last_run_at": "2026-11-08T13:23:42+00:00",
-  "duration_seconds": 2.69,
+  "last_run_at": "2026-11-09T16:17:45+00:00",
+  "duration_seconds": 5.76,
   "runs": [
+    {
+      "started_at": "2026-11-09T16:17:39+00:00",
+      "finished_at": "2026-11-09T16:17:45+00:00",
+      "trigger": "schedule",
+      "success": true,
+      "feeds": [
+        {
+          "name": "WAZ",
+          "url": "https://www.waz.de/rss",
+          "success": true,
+          "matched_items": 1
+        },
+        {
+          "name": "WDR",
+          "url": "https://www.wdr.de/nachrichten/index.rss",
+          "success": true,
+          "matched_items": 0
+        },
+        {
+          "name": "insolution.info",
+          "url": "https://www.insolution.info/rss",
+          "success": true,
+          "matched_items": 0
+        }
+      ],
+      "configured_feeds": 3,
+      "successful_feeds": 3,
+      "failed_feeds": 0,
+      "processed_items": 1,
+      "new_suggestions": 1,
+      "total_suggestions": 3,
+      "error": null,
+      "last_run_at": "2026-11-09T16:17:45+00:00",
+      "duration_seconds": 5.76
+    },
     {
       "started_at": "2026-11-08T13:23:39+00:00",
       "finished_at": "2026-11-08T13:23:42+00:00",

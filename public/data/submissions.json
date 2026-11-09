@@ -38,5 +38,25 @@
       }
     },
     "status": "PENDING_REVIEW"
+  },
+  {
+    "crawled_at": "2026-11-09T16:17:45.386118",
+    "source_type": "rss",
+    "origin": "https://www.waz.de/rss",
+    "title": "Polizisten bei Döner-Imbiss-Randale attackiert: Suche nach weiteren Tätern",
+    "source_url": "https://www.waz.de/lokales/dortmund/article413622396/mit-e-scootern-geworfen-doener-imbiss-eroeffnung-in-dortmund-geraet-ausser-kontrolle.html",
+    "snippet": "Döner zum Schnäppchenpreis in Dortmund lockten am Sonntag Hunderte zur Eröffnung eines Imbisses. Dann eskalierte die Lage komplett....",
+    "extracted_data": {
+      "brands_mentioned": [],
+      "years_mentioned": [],
+      "detected_title": "Manueller Vorschlag",
+      "property_signals": {
+        "owner_candidates": [],
+        "sale_offer_mentioned": false,
+        "rent_amounts_eur": [],
+        "municipal_acquisition_candidates": []
+      }
+    },
+    "status": "PENDING_REVIEW"
   }
 ]
