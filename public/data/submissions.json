@@ -58,5 +58,25 @@
       }
     },
     "status": "PENDING_REVIEW"
+  },
+  {
+    "crawled_at": "2026-11-10T14:52:29.150917",
+    "source_type": "rss",
+    "origin": "https://www.waz.de/rss",
+    "title": "Procuritas ist insolvent: Betroffene erheben Vorwürfe – und sind verunsichert",
+    "source_url": "https://www.waz.de/lokales/duisburg/article413638958/procuritas-ist-insolvent-betroffene-erheben-vorwuerfe-und-sind-verunsichert.html",
+    "snippet": "Die Procuritas-Insolvenz betrifft Pflegebedürftige und ältere Mieter in Duisburg. Jetzt kommen Vorwürfe auf. Was das Unternehmen zum laufenden Betrieb sagt....",
+    "extracted_data": {
+      "brands_mentioned": [],
+      "years_mentioned": [],
+      "detected_title": "Manueller Vorschlag",
+      "property_signals": {
+        "owner_candidates": [],
+        "sale_offer_mentioned": false,
+        "rent_amounts_eur": [],
+        "municipal_acquisition_candidates": []
+      }
+    },
+    "status": "PENDING_REVIEW"
   }
 ]
