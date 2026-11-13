@@ -1,8 +1,8 @@
 {
-  "started_at": "2026-11-12T15:14:13+00:00",
-  "finished_at": "2026-11-12T15:14:17+00:00",
+  "started_at": "2026-11-13T14:34:22+00:00",
+  "finished_at": "2026-11-13T14:34:23+00:00",
   "trigger": "schedule",
-  "success": true,
+  "success": false,
   "feeds": [
     {
       "name": "WAZ",
@@ -13,8 +13,8 @@
     {
       "name": "WDR",
       "url": "https://www.wdr.de/nachrichten/index.rss",
-      "success": true,
-      "matched_items": 0
+      "success": false,
+      "error": "HTTPError"
     },
     {
       "name": "insolution.info",
@@ -24,15 +24,50 @@
     }
   ],
   "configured_feeds": 3,
-  "successful_feeds": 3,
-  "failed_feeds": 0,
+  "successful_feeds": 2,
+  "failed_feeds": 1,
   "processed_items": 0,
   "new_suggestions": 0,
   "total_suggestions": 5,
   "error": null,
-  "last_run_at": "2026-11-12T15:14:17+00:00",
-  "duration_seconds": 3.87,
+  "last_run_at": "2026-11-13T14:34:23+00:00",
+  "duration_seconds": 1.65,
   "runs": [
+    {
+      "started_at": "2026-11-13T14:34:22+00:00",
+      "finished_at": "2026-11-13T14:34:23+00:00",
+      "trigger": "schedule",
+      "success": false,
+      "feeds": [
+        {
+          "name": "WAZ",
+          "url": "https://www.waz.de/rss",
+          "success": true,
+          "matched_items": 0
+        },
+        {
+          "name": "WDR",
+          "url": "https://www.wdr.de/nachrichten/index.rss",
+          "success": false,
+          "error": "HTTPError"
+        },
+        {
+          "name": "insolution.info",
+          "url": "https://www.insolution.info/rss",
+          "success": true,
+          "matched_items": 0
+        }
+      ],
+      "configured_feeds": 3,
+      "successful_feeds": 2,
+      "failed_feeds": 1,
+      "processed_items": 0,
+      "new_suggestions": 0,
+      "total_suggestions": 5,
+      "error": null,
+      "last_run_at": "2026-11-13T14:34:23+00:00",
+      "duration_seconds": 1.65
+    },
     {
       "started_at": "2026-11-12T15:14:13+00:00",
       "finished_at": "2026-11-12T15:14:17+00:00",
