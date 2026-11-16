@@ -120,5 +120,25 @@
       }
     },
     "status": "PENDING_REVIEW"
+  },
+  {
+    "crawled_at": "2026-11-16T15:44:48.355081",
+    "source_type": "rss",
+    "origin": "https://www.waz.de/rss",
+    "title": "„Citybahn“ in Essen vor der Eröffnung: Ruhrbahn lädt Fahrgäste zu Probefahrten ein",
+    "source_url": "https://www.waz.de/lokales/essen/article413690149/citybahn-in-essen-vor-der-eroeffnung-ruhrbahn-laedt-fahrgaeste-zu-probefahrten-ein.html",
+    "snippet": "Die Straßenbahn pendelt bereits einen Tag vor der offiziellen Inbetriebnahme auf der neuen, oberirdischen Trasse. Die Unterführung am Essener Hbf wird gesperrt....",
+    "extracted_data": {
+      "brands_mentioned": [],
+      "years_mentioned": [],
+      "detected_title": "Manueller Vorschlag",
+      "property_signals": {
+        "owner_candidates": [],
+        "sale_offer_mentioned": false,
+        "rent_amounts_eur": [],
+        "municipal_acquisition_candidates": []
+      }
+    },
+    "status": "PENDING_REVIEW"
   }
 ]
