@@ -140,5 +140,27 @@
       }
     },
     "status": "PENDING_REVIEW"
+  },
+  {
+    "crawled_at": "2026-11-20T15:26:51.136020",
+    "source_type": "rss",
+    "origin": "https://www.waz.de/rss",
+    "title": "Galeria gibt drei weitere Warenhäuser auf - Schließungswelle in NRW geplant?",
+    "source_url": "https://www.waz.de/lokales/essen/article413731245/galeria-schliesst-die-ersten-filialen-was-der-insolvenzverwalter-weiter-plant.html",
+    "snippet": "Galeria gibt in der vierten Insolvenz die ersten drei Warenhäuser auf. Kleine und mittlere Städte sollen gut laufen - vor allem außerhalb von NRW....",
+    "extracted_data": {
+      "brands_mentioned": [
+        "Galeria"
+      ],
+      "years_mentioned": [],
+      "detected_title": "Mögliches Update für Galeria",
+      "property_signals": {
+        "owner_candidates": [],
+        "sale_offer_mentioned": false,
+        "rent_amounts_eur": [],
+        "municipal_acquisition_candidates": []
+      }
+    },
+    "status": "PENDING_REVIEW"
   }
 ]
