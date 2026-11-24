@@ -162,5 +162,27 @@
       }
     },
     "status": "PENDING_REVIEW"
+  },
+  {
+    "crawled_at": "2026-11-24T17:43:21.728409",
+    "source_type": "rss",
+    "origin": "https://www.waz.de/rss",
+    "title": "Galeria-Rabatte: „Mehr Sparen geht nicht“ – und Gläubiger warten auf ihr Geld",
+    "source_url": "https://www.waz.de/lokales/essen/article413754949/galeria-rabatte-mehr-sparen-geht-nicht-und-glaeubiger-warten-auf-ihr-geld.html",
+    "snippet": "Insolvente Kette Galeria schließt drei Warenhäuser und lockt mit günstigen Black-Friday-Angeboten. Allein in Köln sind 400 Beschäftigte betroffen....",
+    "extracted_data": {
+      "brands_mentioned": [
+        "Galeria"
+      ],
+      "years_mentioned": [],
+      "detected_title": "Mögliches Update für Galeria",
+      "property_signals": {
+        "owner_candidates": [],
+        "sale_offer_mentioned": false,
+        "rent_amounts_eur": [],
+        "municipal_acquisition_candidates": []
+      }
+    },
+    "status": "PENDING_REVIEW"
   }
 ]
