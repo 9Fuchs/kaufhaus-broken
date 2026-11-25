@@ -184,5 +184,27 @@
       }
     },
     "status": "PENDING_REVIEW"
+  },
+  {
+    "crawled_at": "2026-11-25T17:12:20.620347",
+    "source_type": "rss",
+    "origin": "https://www.waz.de/rss",
+    "title": "Galeria will schon im Januar erste Kündigungen an Beschäftigte verschicken",
+    "source_url": "https://www.waz.de/wirtschaft/article413774246/galeria-ist-laut-insolvenzverwalter-bis-ende-maerz-2027-durchfinanziert.html",
+    "snippet": "Insolvenzverwalter Kebekus stimmt Warenhauskette auf Schließungswelle ein: „Wir werden deutlich tiefer schneiden müssen.“ Er macht aber auch Hoffnung....",
+    "extracted_data": {
+      "brands_mentioned": [
+        "Galeria"
+      ],
+      "years_mentioned": [],
+      "detected_title": "Mögliches Update für Galeria",
+      "property_signals": {
+        "owner_candidates": [],
+        "sale_offer_mentioned": false,
+        "rent_amounts_eur": [],
+        "municipal_acquisition_candidates": []
+      }
+    },
+    "status": "PENDING_REVIEW"
   }
 ]
